@@ -1,0 +1,25 @@
+[general]
+creator=R package 'raster'
+created=2019-04-09 14:24:08
+[georeference]
+nrows=601
+ncols=601
+xmin=-114.05
+ymin=37
+xmax=-109.041666666667
+ymax=42.0083333333333
+projection=+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
+[data]
+datatype=FLT4S
+byteorder=little
+nbands=19
+bandorder=BIL
+minvalue=-2.67083334922791:6.69166660308838:23.7683429718018:658.304016113281:12.6000003814697:-19.7999992370605:25.5999984741211:-6.83333349227905:-9:6.63333320617676:-9.75:125:18:3:5.00542306900024:45:17:32:17
+maxvalue=18.3125:21.8083324432373:47.9213905334473:1186.83178710938:39.0999984741211:-0.5:52:26.6000003814697:24.716667175293:29.3666667938232:7.96666669845581:707:80:47:46.7444953918457:220:148:220:189
+nodatavalue=-3.4e+38
+[legend]
+legendtype=
+values=
+color=
+[description]
+layername=Annual.Mean.Temperature:Mean.Diurnal.Range:Isothermality:Temperature.Seasonality:Max.Temperature.of.Warmest.Month:Min.Temperature.of.Coldest.Month:Temperature.Annual.Range:Mean.Temperature.of.Wettest.Quarter:Mean.Temperature.of.Driest.Quarter:Mean.Temperature.of.Warmest.Quarter:Mean.Temperature.of.Coldest.Quarter:Annual.Precipitation:Precipitation.of.Wettest.Month:Precipitation.of.Driest.Month:Precipitation.Seasonality:Precipitation.of.Wettest.Quarter:Precipitation.of.Driest.Quarter:Precipitation.of.Warmest.Quarter:Precipitation.of.Coldest.Quarter

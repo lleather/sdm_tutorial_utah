@@ -1,0 +1,240 @@
+---
+title: "Making attractive maps in R"
+output: html_notebook
+---
+
+## Making attractive maps with R and ggplot
+
+### Static maps: using ggplot and colorblind-friendly color schemes
+
+ggplot2 can also be used to make maps, without the ggmap package. I like this because it allows you to plot points (and even polygons!) over a raster layer, and customize how your raster looks, in ways that I think are easier to understand than in base R (e.g., plot() ).. However, there are a few additional data processing steps here, so it's less well-suited for on-the-fly visualization. 
+
+We're also using the [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) package for this rockin color scheme. Unlike other color schemes, which often rely on distinctions between green and red, viridis supplies a variety of color schemes that have gradations that are perceptible to folks who can't easily perceive the difference between green and red. 
+
+This uses the gplot() (not ggplot()) command from the rasterVispackage, which is a wrapper around ggplot to use with raster data. A more detailed tutorial for plotting raster data in R is located [here](http://zevross.com/blog/2015/03/30/map-and-analyze-raster-data-in-r/).
+
+This first method requires little data processing, but produces maps that sometimes look striated when I render them to export in markdown. (Not sure why! Something weird with the mapping?) 
+
+Importantly, you'll notice that the spatial resolution of the basemap is only as good as the raster data that you're visualizing.
+
+First, we'll load all the libraries we need. 
+
+```{r}
+library(here)
+library(tidyverse)
+library(raster)
+library(ggplot2)
+
+```
+
+
+Next, we'll choose one of our models to visualize. 
+
+```{r}
+
+#read back in a raster stack of interest
+present_In <- stack(here("model_output/rasters/biomod_out.grd"))
+
+#select one layer from the raster stack output
+RF_model <- myCurrentProj$Populus.tremuloides_AllData_Full_RF
+
+```
+
+
+```{r}
+# load point data
+POTR.dat <- read.csv(POTR.dat, here("data/occurrence/full_POTR.csv"))
+```
+
+
+```{r static maps with geom tile, message = FALSE}
+
+#this is the same plot we created in the previous section
+
+library(rasterVis)
+library(viridis)
+
+p = gplot(RF_model) +
+  geom_tile(aes(fill = value)) + 
+  scale_fill_viridis(na.value = "white") + 
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  coord_fixed(ratio = 1.3) # sets the xy resolution to a constant value
+
+p
+
+```
+
+We can use a couple different color schemes in this package. 
+
+```{r}
+
+p + 
+  scale_fill_viridis(na.value = "white", option = "magma")
+
+p + 
+  scale_fill_viridis(na.value = "white", option = "inferno")
+
+p + 
+  scale_fill_viridis(na.value = "white", option = "plasma")
+
+
+```
+
+We can also plot our initial points over this model. 
+
+```{r}
+
+p + geom_point(POTR.dat %>% arrange(presAbs) %>% filter(presAbs == 1), 
+             mapping = aes(x = lon, y = lat, col = factor(presAbs)), shape = 21, color = "white", size = 1) + 
+  labs(title = paste0("Aspen occurrence data"))  
+  
+
+```
+
+A mapmaking method that requires a little more data prep-- but generates smoother-looking maps on the fly-- is to convert your raster data set to a data frame of points, with a value for each lat-long combination in the data set. This is in contrast to a raster, which is essentially a matrix of data. Confusingly, the geom_raster() function cannot plot an actual raster! 
+
+```{r static maps with geom raster}
+
+#write function to convert raster to ggplot-friendly format
+raster_to_pts_gg <- function(raster) {
+  spdf <- as(raster, "SpatialPixelsDataFrame")
+  df <- as.data.frame(spdf)
+  colnames(df) <- c("value", "x", "y")
+  df
+}
+
+#convert selected raster to list of points
+RF_model_pts <- raster_to_pts_gg(RF_model)
+
+#plot
+p = ggplot() + 
+  geom_raster(data = RF_model_pts, aes(x = x, y = y, fill = value)) + 
+  scale_fill_viridis() + 
+  #remove default plotting background
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+  coord_fixed(ratio = 1.3)
+
+p
+
+p + 
+  geom_point(POTR.dat %>% arrange(presAbs) %>% filter(presAbs == 1),
+             mapping = aes(x = lon, y = lat, col = factor(presAbs)), shape = 21, color = "white", size = 1) + 
+  labs(title = paste0("Aspen occurrence data"))  
+
+
+```
+
+## Leaflet
+
+Mapmaking capabilities in R aren't just limited to static maps-- there are a couple different utilities for making interactive maps in R. The widely-used mapping software [Leaflet](https://leafletjs.com/index.html) can be used in R.
+
+I referred to [this useful demo](https://gbif-europe.github.io/nordic_oikos_2018_r/s3_gbif_demo/gbif_demo.html) for downloading gbif data in R, and then visualizing using leaflet.
+
+First, we need to make sure that the appropriate packages are installed. [mapr](https://cran.r-project.org/web/packages/mapr/index.html) has a simple leaflet mapping utility that we'll install. Conveniently, mapr can take data frames as an input. There is also [Leaflet R package](https://rstudio.github.io/leaflet/).
+
+```{r leaflet in R via mapr }
+install.packages("mapr")
+library(mapr)
+
+#commented out for rendering to pdf
+#visible only in .html format
+
+#map only presences
+
+POTR.dat %>%
+  #map_leaflet() needs the species name to be "name"
+  mutate(name = "Populus tremuloides") %>%
+  #filter to just show presences here
+  filter(presAbs == 1) %>%
+
+  map_leaflet(., "lon", "lat", size=2)
+
+```
+
+[link to screenshot of map]
+
+In the interactive map, you can zoom in and out, and mouse over / click on your occurrence points to see data about them. 
+
+Here's a [much more complex Leaflet tutorial](http://strimas.com/r/ebird-county/) that uses specifically eBird data, mapped in R using Leaflet. 
+
+The full leaflet package provides a lot of options to customize your map baselayers, markers, and labels, which are detail in the Leaflet R package tutorial. Without getting too complicated, here's a very simple way to visualize your data in R.
+
+```{r leaflet in R via leaflet}
+#install.packages("leaflet")
+library(leaflet)
+
+#commented out for rendering to pdf
+#visible only in .html format
+
+#filter data to only include presences
+#similarly, this takes a lot of time to render when we have this much data.
+POTR.dat %>%
+  filter(presAbs == 1) %>%
+  leaflet() %>%
+  addTiles() %>%
+  #simple, default markers where you set what shows when you mouse over ("label") and click on ("popup") a point.
+  addMarkers(~lon, ~lat, popup = ~as.character(presAbs), label = ~paste0("Presence: ", as.character(presAbs)))
+
+```
+
+[include screenshot of map for pdf]
+
+### Plotting points: using a google-derived basemap
+
+ggmap is a package you can use to download satellite imagery. 
+
+You may need to update other packages on this install. 
+
+```{r}
+#install.packages("devtools")
+library(devtools)
+devtools::install_github("dkahle/ggmap")
+library(ggmap)
+
+```
+
+Google provides a way to access baselayers for plotting your points on a map. But, it can throw a lot of errors!
+
+```{r}
+library(ggmap)
+
+map = get_map(location = "utah",
+              zoom = 6,
+              source = "google",
+              maptype = "satellite")
+
+p = ggmap(map)
+p +
+  geom_point(POTR.dat %>% arrange(presAbs),
+             mapping = aes(x = lon, y = lat, col = factor(presAbs))) +
+  labs(title = paste0("POTR presence and absence"))
+```
+
+## Using alternate baselayer sources for maps
+
+An easy way to get around the errors from google maps is just to change the source of the get_map() command. Because google is the default, we have to specify a different source.
+
+### Stamen maps
+
+[Stamen](http://maps.stamen.com/#terrain/12/37.7706/-122.3782) is a data visualization utility provides a few different options for map baselayers-- that are easier to query than google. Similar to the google maps, you're also downloading map tiles from an online utility-- but the stamen maps tend to be less finicky and proprietary.
+
+To use them, use the command get_map(), but set source to "stamen".
+
+You can also read more about the different sources and maptypes in the [documentation for the ggmap package.](https://cran.r-project.org/web/packages/ggmap/ggmap.pdf) 
+
+```{r}
+library(ggmap)
+map = get_map(location = "Utah",
+              zoom = 6,
+              source = "stamen")
+
+p = ggmap(map)
+p +
+  geom_point(POTR.dat %>% arrange(presAbs),
+             mapping = aes(x = lon, y = lat, col = factor(presAbs))) +
+  labs(title = paste0("POTR presence and absence"))
+```
+
+
+
+
