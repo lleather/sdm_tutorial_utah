@@ -29,4 +29,13 @@ Over the course of this workshop, you will learn how to:
 
 Additionally, we will learn some foundational concepts behind species distribution modeling.
 
+![sdm_pic](/Users/lilaleatherman/Documents/github/sdm_tutorial_utah/img/sdm_img.png)
+
+The file "SDM_workshop_utah.Rmd" will walk you through how to manipulate spatial data and create species distribution models in R. 
+
+The file "SDM_workshop_mappingSupplement.Rmd" provides additional methods to plot spatial data in R.
+
+If you are not familiar with how to clone a repository, you can get started by downloading the repository as a zip file.
+
+![download](/Users/lilaleatherman/Documents/github/sdm_tutorial_utah/img/howtodownload.png)
 

@@ -66,6 +66,9 @@ First, we need to install all of the packages we need for this project.
 #set chunk options for writing
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
+#reassign functions that are masked
+extract <- raster::extract
+select <- dplyr::select
 
 ```
 
@@ -194,7 +197,7 @@ plot(gbif.POTR.shp)
 #replace file with the subsetted points in our area of interest
 #we can access just the data frame portion of the shapefile
 gbif.POTR <- gbif.POTR.shp@data %>%
-  select(-optional)
+  dplyr::select(-optional)
 
 #export again so we have the most up-to-date version saved! both for our collaborators, and FUTURE US
 write.csv(gbif.POTR, "./data/occurrence/GBIF/gbif.POTR.csv", row.names = FALSE)
@@ -510,8 +513,8 @@ myCurrentProj <- get_predictions(myBiomodProj)
 presentResult <- calc(myCurrentProj,fun = median); #Choose whatever descriptive statistic you'd like
 plot(presentResult)
 
-myCurrentProj
-plot(myCurrentProj)
+#myCurrentProj
+plot(myCurrentProj[[1]], main = "Aspen (Populus Tremuloides) in Utah")
 
 ```
 
