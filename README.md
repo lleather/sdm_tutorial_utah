@@ -42,3 +42,8 @@ If you are not familiar with how to clone a repository, you can get started by d
 ## Additional resources
 
 [Data Carpentry geospatial workshop curricula](https://datacarpentry.org/lessons/#geospatial-curriculum)
+
+[NEON data tutorials](<https://www.neonscience.org/resources/data-tutorials>)
+
+[Tidy data and the tidyverse with Hadley Wickham](<https://r4ds.had.co.nz/tidy-data.html>)
+
