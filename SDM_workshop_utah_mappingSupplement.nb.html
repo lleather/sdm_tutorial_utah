@@ -188,123 +188,99 @@ $(document).ready(function () {
 <p>First, we’ll load all the libraries we need.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShoZXJlKVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHJhc3RlcilcbmxpYnJhcnkoZ2dwbG90MilcblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShoZXJlKVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHJhc3RlcilcbmxpYnJhcnkoZ2dwbG90MilcbmBgYCJ9 -->
 <pre class="r"><code>library(here)
 library(tidyverse)
 library(raster)
-library(ggplot2)
-</code></pre>
+library(ggplot2)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Next, we’ll choose one of our models to visualize.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jcmVhZCBiYWNrIGluIGEgcmFzdGVyIHN0YWNrIG9mIGludGVyZXN0XG5wcmVzZW50X0luIDwtIHN0YWNrKGhlcmUoXCJtb2RlbF9vdXRwdXQvcmFzdGVycy9iaW9tb2Rfb3V0LmdyZFwiKSlcblxuI3NlbGVjdCBvbmUgbGF5ZXIgZnJvbSB0aGUgcmFzdGVyIHN0YWNrIG91dHB1dFxuUkZfbW9kZWwgPC0gbXlDdXJyZW50UHJvaiRQb3B1bHVzLnRyZW11bG9pZGVzX0FsbERhdGFfRnVsbF9SRlxuXG5gYGAifQ== -->
-<pre class="r"><code>
-#read back in a raster stack of interest
-present_In &lt;- stack(here(&quot;model_output/rasters/biomod_out.grd&quot;))
-
-#select one layer from the raster stack output
-RF_model &lt;- myCurrentProj$Populus.tremuloides_AllData_Full_RF
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG4jcmVhZCBiYWNrIGluIGEgcmFzdGVyIHN0YWNrIG9mIGludGVyZXN0XG5wcmVzZW50X0luIDwtIHN0YWNrKGhlcmUoXFxtb2RlbF9vdXRwdXQvcmFzdGVycy9iaW9tb2Rfb3V0LmdyZFxcKSlcblxuI3NlbGVjdCBvbmUgbGF5ZXIgZnJvbSB0aGUgcmFzdGVyIHN0YWNrIG91dHB1dFxuUkZfbW9kZWwgPC0gbXlDdXJyZW50UHJvaiRQb3B1bHVzLnRyZW11bG9pZGVzX0FsbERhdGFfRnVsbF9SRlxuXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+</div>
+</div>
+<div id="read-back-in-a-raster-stack-of-interest" class="section level1">
+<h1>read back in a raster stack of interest</h1>
+<p>present_In &lt;- stack(here(_output/rasters/biomod_out.grd))</p>
+</div>
+<div id="select-one-layer-from-the-raster-stack-output" class="section level1">
+<h1>select one layer from the raster stack output</h1>
+<p>RF_model &lt;- myCurrentProj$Populus.tremuloides_AllData_Full_RF</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIHBvaW50IGRhdGFcblBPVFIuZGF0IDwtIHJlYWQuY3N2KFBPVFIuZGF0LCBoZXJlKFwiZGF0YS9vY2N1cnJlbmNlL2Z1bGxfUE9UUi5jc3ZcIikpXG5gYGAifQ== -->
-<pre class="r"><code># load point data
-POTR.dat &lt;- read.csv(POTR.dat, here(&quot;data/occurrence/full_POTR.csv&quot;))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBsb2FkIHBvaW50IGRhdGFcblBPVFIuZGF0IDwtIHJlYWQuY3N2KFBPVFIuZGF0LCBoZXJlKFxcZGF0YS9vY2N1cnJlbmNlL2Z1bGxfUE9UUi5jc3ZcXCkpXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r # load point data POTR.dat &lt;- read.csv(POTR.dat, here(/occurrence/full_POTR.csv))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jdGhpcyBpcyB0aGUgc2FtZSBwbG90IHdlIGNyZWF0ZWQgaW4gdGhlIHByZXZpb3VzIHNlY3Rpb25cblxubGlicmFyeShyYXN0ZXJWaXMpXG5saWJyYXJ5KHZpcmlkaXMpXG5cbnAgPSBncGxvdChSRl9tb2RlbCkgK1xuICBnZW9tX3RpbGUoYWVzKGZpbGwgPSB2YWx1ZSkpICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcyhuYS52YWx1ZSA9IFwid2hpdGVcIikgKyBcbiAgdGhlbWVfYncoKSArIHRoZW1lKHBhbmVsLmdyaWQubWFqb3IgPSBlbGVtZW50X2JsYW5rKCksIHBhbmVsLmdyaWQubWlub3IgPSBlbGVtZW50X2JsYW5rKCkpICsgXG4gIGNvb3JkX2ZpeGVkKHJhdGlvID0gMS4zKSAjIHNldHMgdGhlIHh5IHJlc29sdXRpb24gdG8gYSBjb25zdGFudCB2YWx1ZVxuXG5wXG5cbmBgYCJ9 -->
-<pre class="r"><code>
-#this is the same plot we created in the previous section
-
-library(rasterVis)
-library(viridis)
-
-p = gplot(RF_model) +
-  geom_tile(aes(fill = value)) + 
-  scale_fill_viridis(na.value = &quot;white&quot;) + 
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
-  coord_fixed(ratio = 1.3) # sets the xy resolution to a constant value
-
-p
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG4jdGhpcyBpcyB0aGUgc2FtZSBwbG90IHdlIGNyZWF0ZWQgaW4gdGhlIHByZXZpb3VzIHNlY3Rpb25cblxubGlicmFyeShyYXN0ZXJWaXMpXG5saWJyYXJ5KHZpcmlkaXMpXG5cbnAgPSBncGxvdChSRl9tb2RlbCkgK1xuICBnZW9tX3RpbGUoYWVzKGZpbGwgPSB2YWx1ZSkpICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcyhuYS52YWx1ZSA9IFxcd2hpdGVcXCkgKyBcbiAgdGhlbWVfYncoKSArIHRoZW1lKHBhbmVsLmdyaWQubWFqb3IgPSBlbGVtZW50X2JsYW5rKCksIHBhbmVsLmdyaWQubWlub3IgPSBlbGVtZW50X2JsYW5rKCkpICsgXG4gIGNvb3JkX2ZpeGVkKHJhdGlvID0gMS4zKSAjIHNldHMgdGhlIHh5IHJlc29sdXRpb24gdG8gYSBjb25zdGFudCB2YWx1ZVxuXG5wXG5cbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r</p>
+</div>
+<div id="this-is-the-same-plot-we-created-in-the-previous-section" class="section level1">
+<h1>this is the same plot we created in the previous section</h1>
+<p>library(rasterVis) library(viridis)</p>
+<p>p = gplot(RF_model) + geom_tile(aes(fill = value)) + scale_fill_viridis(na.value = ) + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + coord_fixed(ratio = 1.3) # sets the xy resolution to a constant value</p>
+<p>p</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>We can use a couple different color schemes in this package.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5wICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcyhuYS52YWx1ZSA9IFwid2hpdGVcIiwgb3B0aW9uID0gXCJtYWdtYVwiKVxuXG5wICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcyhuYS52YWx1ZSA9IFwid2hpdGVcIiwgb3B0aW9uID0gXCJpbmZlcm5vXCIpXG5cbnAgKyBcbiAgc2NhbGVfZmlsbF92aXJpZGlzKG5hLnZhbHVlID0gXCJ3aGl0ZVwiLCBvcHRpb24gPSBcInBsYXNtYVwiKVxuXG5cbmBgYCJ9 -->
-<pre class="r"><code>
-p + 
-  scale_fill_viridis(na.value = &quot;white&quot;, option = &quot;magma&quot;)
-
-p + 
-  scale_fill_viridis(na.value = &quot;white&quot;, option = &quot;inferno&quot;)
-
-p + 
-  scale_fill_viridis(na.value = &quot;white&quot;, option = &quot;plasma&quot;)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5wICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcyhuYS52YWx1ZSA9IFxcd2hpdGVcXCwgb3B0aW9uID0gXFxtYWdtYVxcKVxuXG5wICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcyhuYS52YWx1ZSA9IFxcd2hpdGVcXCwgb3B0aW9uID0gXFxpbmZlcm5vXFwpXG5cbnAgKyBcbiAgc2NhbGVfZmlsbF92aXJpZGlzKG5hLnZhbHVlID0gXFx3aGl0ZVxcLCBvcHRpb24gPSBcXHBsYXNtYVxcKVxuXG5cbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r</p>
+<p>p + scale_fill_viridis(na.value = , option = )</p>
+<p>p + scale_fill_viridis(na.value = , option = )</p>
+<p>p + scale_fill_viridis(na.value = , option = )</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>We can also plot our initial points over this model.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5wICsgZ2VvbV9wb2ludChQT1RSLmRhdCAlPiUgYXJyYW5nZShwcmVzQWJzKSAlPiUgZmlsdGVyKHByZXNBYnMgPT0gMSksIFxuICAgICAgICAgICAgIG1hcHBpbmcgPSBhZXMoeCA9IGxvbiwgeSA9IGxhdCwgY29sID0gZmFjdG9yKHByZXNBYnMpKSwgc2hhcGUgPSAyMSwgY29sb3IgPSBcIndoaXRlXCIsIHNpemUgPSAxKSArIFxuICBsYWJzKHRpdGxlID0gcGFzdGUwKFwiQXNwZW4gb2NjdXJyZW5jZSBkYXRhXCIpKSAgXG4gIFxuXG5gYGAifQ== -->
-<pre class="r"><code>
-p + geom_point(POTR.dat %&gt;% arrange(presAbs) %&gt;% filter(presAbs == 1), 
-             mapping = aes(x = lon, y = lat, col = factor(presAbs)), shape = 21, color = &quot;white&quot;, size = 1) + 
-  labs(title = paste0(&quot;Aspen occurrence data&quot;))  
-  
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5wICsgZ2VvbV9wb2ludChQT1RSLmRhdCAlPiUgYXJyYW5nZShwcmVzQWJzKSAlPiUgZmlsdGVyKHByZXNBYnMgPT0gMSksIFxuICAgICAgICAgICAgIG1hcHBpbmcgPSBhZXMoeCA9IGxvbiwgeSA9IGxhdCwgY29sID0gZmFjdG9yKHByZXNBYnMpKSwgc2hhcGUgPSAyMSwgY29sb3IgPSBcXHdoaXRlXFwsIHNpemUgPSAxKSArIFxuICBsYWJzKHRpdGxlID0gcGFzdGUwKFxcQXNwZW4gb2NjdXJyZW5jZSBkYXRhXFwpKSAgXG4gIFxuXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+<p>p + geom_point(POTR.dat %&gt;% arrange(presAbs) %&gt;% filter(presAbs == 1), mapping = aes(x = lon, y = lat, col = factor(presAbs)), shape = 21, color = , size = 1) + labs(title = paste0(occurrence data))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>A mapmaking method that requires a little more data prep– but generates smoother-looking maps on the fly– is to convert your raster data set to a data frame of points, with a value for each lat-long combination in the data set. This is in contrast to a raster, which is essentially a matrix of data. Confusingly, the geom_raster() function cannot plot an actual raster!</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jd3JpdGUgZnVuY3Rpb24gdG8gY29udmVydCByYXN0ZXIgdG8gZ2dwbG90LWZyaWVuZGx5IGZvcm1hdFxucmFzdGVyX3RvX3B0c19nZyA8LSBmdW5jdGlvbihyYXN0ZXIpIHtcbiAgc3BkZiA8LSBhcyhyYXN0ZXIsIFwiU3BhdGlhbFBpeGVsc0RhdGFGcmFtZVwiKVxuICBkZiA8LSBhcy5kYXRhLmZyYW1lKHNwZGYpXG4gIGNvbG5hbWVzKGRmKSA8LSBjKFwidmFsdWVcIiwgXCJ4XCIsIFwieVwiKVxuICBkZlxufVxuXG4jY29udmVydCBzZWxlY3RlZCByYXN0ZXIgdG8gbGlzdCBvZiBwb2ludHNcblJGX21vZGVsX3B0cyA8LSByYXN0ZXJfdG9fcHRzX2dnKFJGX21vZGVsKVxuXG4jcGxvdFxucCA9IGdncGxvdCgpICsgXG4gIGdlb21fcmFzdGVyKGRhdGEgPSBSRl9tb2RlbF9wdHMsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSB2YWx1ZSkpICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcygpICsgXG4gICNyZW1vdmUgZGVmYXVsdCBwbG90dGluZyBiYWNrZ3JvdW5kXG4gIHRoZW1lX2J3KCkgKyB0aGVtZShwYW5lbC5ncmlkLm1ham9yID0gZWxlbWVudF9ibGFuaygpLCBwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpKSArIFxuICBjb29yZF9maXhlZChyYXRpbyA9IDEuMylcblxucFxuXG5wICsgXG4gIGdlb21fcG9pbnQoUE9UUi5kYXQgJT4lIGFycmFuZ2UocHJlc0FicykgJT4lIGZpbHRlcihwcmVzQWJzID09IDEpLFxuICAgICAgICAgICAgIG1hcHBpbmcgPSBhZXMoeCA9IGxvbiwgeSA9IGxhdCwgY29sID0gZmFjdG9yKHByZXNBYnMpKSwgc2hhcGUgPSAyMSwgY29sb3IgPSBcIndoaXRlXCIsIHNpemUgPSAxKSArIFxuICBsYWJzKHRpdGxlID0gcGFzdGUwKFwiQXNwZW4gb2NjdXJyZW5jZSBkYXRhXCIpKSAgXG5cblxuYGBgIn0= -->
-<pre class="r"><code>
-#write function to convert raster to ggplot-friendly format
-raster_to_pts_gg &lt;- function(raster) {
-  spdf &lt;- as(raster, &quot;SpatialPixelsDataFrame&quot;)
-  df &lt;- as.data.frame(spdf)
-  colnames(df) &lt;- c(&quot;value&quot;, &quot;x&quot;, &quot;y&quot;)
-  df
-}
-
-#convert selected raster to list of points
-RF_model_pts &lt;- raster_to_pts_gg(RF_model)
-
-#plot
-p = ggplot() + 
-  geom_raster(data = RF_model_pts, aes(x = x, y = y, fill = value)) + 
-  scale_fill_viridis() + 
-  #remove default plotting background
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
-  coord_fixed(ratio = 1.3)
-
-p
-
-p + 
-  geom_point(POTR.dat %&gt;% arrange(presAbs) %&gt;% filter(presAbs == 1),
-             mapping = aes(x = lon, y = lat, col = factor(presAbs)), shape = 21, color = &quot;white&quot;, size = 1) + 
-  labs(title = paste0(&quot;Aspen occurrence data&quot;))  
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG4jd3JpdGUgZnVuY3Rpb24gdG8gY29udmVydCByYXN0ZXIgdG8gZ2dwbG90LWZyaWVuZGx5IGZvcm1hdFxucmFzdGVyX3RvX3B0c19nZyA8LSBmdW5jdGlvbihyYXN0ZXIpIHtcbiAgc3BkZiA8LSBhcyhyYXN0ZXIsIFxcU3BhdGlhbFBpeGVsc0RhdGFGcmFtZVxcKVxuICBkZiA8LSBhcy5kYXRhLmZyYW1lKHNwZGYpXG4gIGNvbG5hbWVzKGRmKSA8LSBjKFxcdmFsdWVcXCwgXFx4XFwsIFxceVxcKVxuICBkZlxufVxuXG4jY29udmVydCBzZWxlY3RlZCByYXN0ZXIgdG8gbGlzdCBvZiBwb2ludHNcblJGX21vZGVsX3B0cyA8LSByYXN0ZXJfdG9fcHRzX2dnKFJGX21vZGVsKVxuXG4jcGxvdFxucCA9IGdncGxvdCgpICsgXG4gIGdlb21fcmFzdGVyKGRhdGEgPSBSRl9tb2RlbF9wdHMsIGFlcyh4ID0geCwgeSA9IHksIGZpbGwgPSB2YWx1ZSkpICsgXG4gIHNjYWxlX2ZpbGxfdmlyaWRpcygpICsgXG4gICNyZW1vdmUgZGVmYXVsdCBwbG90dGluZyBiYWNrZ3JvdW5kXG4gIHRoZW1lX2J3KCkgKyB0aGVtZShwYW5lbC5ncmlkLm1ham9yID0gZWxlbWVudF9ibGFuaygpLCBwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpKSArIFxuICBjb29yZF9maXhlZChyYXRpbyA9IDEuMylcblxucFxuXG5wICsgXG4gIGdlb21fcG9pbnQoUE9UUi5kYXQgJT4lIGFycmFuZ2UocHJlc0FicykgJT4lIGZpbHRlcihwcmVzQWJzID09IDEpLFxuICAgICAgICAgICAgIG1hcHBpbmcgPSBhZXMoeCA9IGxvbiwgeSA9IGxhdCwgY29sID0gZmFjdG9yKHByZXNBYnMpKSwgc2hhcGUgPSAyMSwgY29sb3IgPSBcXHdoaXRlXFwsIHNpemUgPSAxKSArIFxuICBsYWJzKHRpdGxlID0gcGFzdGUwKFxcQXNwZW4gb2NjdXJyZW5jZSBkYXRhXFwpKSAgXG5cblxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r</p>
+</div>
+<div id="write-function-to-convert-raster-to-ggplot-friendly-format" class="section level1">
+<h1>write function to convert raster to ggplot-friendly format</h1>
+<p>raster_to_pts_gg &lt;- function(raster) { spdf &lt;- as(raster, ) df &lt;- as.data.frame(spdf) colnames(df) &lt;- c(, , ) df }</p>
+</div>
+<div id="convert-selected-raster-to-list-of-points" class="section level1">
+<h1>convert selected raster to list of points</h1>
+<p>RF_model_pts &lt;- raster_to_pts_gg(RF_model)</p>
+</div>
+<div id="plot" class="section level1">
+<h1>plot</h1>
+<p>p = ggplot() + geom_raster(data = RF_model_pts, aes(x = x, y = y, fill = value)) + scale_fill_viridis() + #remove default plotting background theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + coord_fixed(ratio = 1.3)</p>
+<p>p</p>
+<p>p + geom_point(POTR.dat %&gt;% arrange(presAbs) %&gt;% filter(presAbs == 1), mapping = aes(x = lon, y = lat, col = factor(presAbs)), shape = 21, color = , size = 1) + labs(title = paste0(occurrence data))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-</div>
 <div id="leaflet" class="section level2">
 <h2>Leaflet</h2>
 <p>Mapmaking capabilities in R aren’t just limited to static maps– there are a couple different utilities for making interactive maps in R. The widely-used mapping software <a href="https://leafletjs.com/index.html">Leaflet</a> can be used in R.</p>
@@ -312,23 +288,22 @@ p +
 <p>First, we need to make sure that the appropriate packages are installed. <a href="https://cran.r-project.org/web/packages/mapr/index.html">mapr</a> has a simple leaflet mapping utility that we’ll install. Conveniently, mapr can take data frames as an input. There is also <a href="https://rstudio.github.io/leaflet/">Leaflet R package</a>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5zdGFsbC5wYWNrYWdlcyhcIm1hcHJcIilcbmxpYnJhcnkobWFwcilcblxuI2NvbW1lbnRlZCBvdXQgZm9yIHJlbmRlcmluZyB0byBwZGZcbiN2aXNpYmxlIG9ubHkgaW4gLmh0bWwgZm9ybWF0XG5cbiNtYXAgb25seSBwcmVzZW5jZXNcblxuUE9UUi5kYXQgJT4lXG4gICNtYXBfbGVhZmxldCgpIG5lZWRzIHRoZSBzcGVjaWVzIG5hbWUgdG8gYmUgXCJuYW1lXCJcbiAgbXV0YXRlKG5hbWUgPSBcIlBvcHVsdXMgdHJlbXVsb2lkZXNcIikgJT4lXG4gICNmaWx0ZXIgdG8ganVzdCBzaG93IHByZXNlbmNlcyBoZXJlXG4gIGZpbHRlcihwcmVzQWJzID09IDEpICU+JVxuXG4gIG1hcF9sZWFmbGV0KC4sIFwibG9uXCIsIFwibGF0XCIsIHNpemU9MilcblxuYGBgIn0= -->
-<pre class="r"><code>install.packages(&quot;mapr&quot;)
-library(mapr)
-
-#commented out for rendering to pdf
-#visible only in .html format
-
-#map only presences
-
-POTR.dat %&gt;%
-  #map_leaflet() needs the species name to be &quot;name&quot;
-  mutate(name = &quot;Populus tremuloides&quot;) %&gt;%
-  #filter to just show presences here
-  filter(presAbs == 1) %&gt;%
-
-  map_leaflet(., &quot;lon&quot;, &quot;lat&quot;, size=2)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuaW5zdGFsbC5wYWNrYWdlcyhcXG1hcHJcXClcbmxpYnJhcnkobWFwcilcblxuI2NvbW1lbnRlZCBvdXQgZm9yIHJlbmRlcmluZyB0byBwZGZcbiN2aXNpYmxlIG9ubHkgaW4gLmh0bWwgZm9ybWF0XG5cbiNtYXAgb25seSBwcmVzZW5jZXNcblxuUE9UUi5kYXQgJT4lXG4gICNtYXBfbGVhZmxldCgpIG5lZWRzIHRoZSBzcGVjaWVzIG5hbWUgdG8gYmUgXFxuYW1lXFxcbiAgbXV0YXRlKG5hbWUgPSBcXFBvcHVsdXMgdHJlbXVsb2lkZXNcXCkgJT4lXG4gICNmaWx0ZXIgdG8ganVzdCBzaG93IHByZXNlbmNlcyBoZXJlXG4gIGZpbHRlcihwcmVzQWJzID09IDEpICU+JVxuXG4gIG1hcF9sZWFmbGV0KC4sIFxcbG9uXFwsIFxcbGF0XFwsIHNpemU9MilcblxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r install.packages() library(mapr)</p>
+</div>
+</div>
+<div id="commented-out-for-rendering-to-pdf" class="section level1">
+<h1>commented out for rendering to pdf</h1>
+</div>
+<div id="visible-only-in-.html-format" class="section level1">
+<h1>visible only in .html format</h1>
+</div>
+<div id="map-only-presences" class="section level1">
+<h1>map only presences</h1>
+<p>POTR.dat %&gt;% #map_leaflet() needs the species name to be <br />
+mutate(name = tremuloides) %&gt;% #filter to just show presences here filter(presAbs == 1) %&gt;%</p>
+<p>map_leaflet(., , , size=2)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -338,22 +313,22 @@ POTR.dat %&gt;%
 <p>The full leaflet package provides a lot of options to customize your map baselayers, markers, and labels, which are detail in the Leaflet R package tutorial. Without getting too complicated, here’s a very simple way to visualize your data in R.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2luc3RhbGwucGFja2FnZXMoXCJsZWFmbGV0XCIpXG5saWJyYXJ5KGxlYWZsZXQpXG5cbiNjb21tZW50ZWQgb3V0IGZvciByZW5kZXJpbmcgdG8gcGRmXG4jdmlzaWJsZSBvbmx5IGluIC5odG1sIGZvcm1hdFxuXG4jZmlsdGVyIGRhdGEgdG8gb25seSBpbmNsdWRlIHByZXNlbmNlc1xuI3NpbWlsYXJseSwgdGhpcyB0YWtlcyBhIGxvdCBvZiB0aW1lIHRvIHJlbmRlciB3aGVuIHdlIGhhdmUgdGhpcyBtdWNoIGRhdGEuXG5QT1RSLmRhdCAlPiVcbiAgZmlsdGVyKHByZXNBYnMgPT0gMSkgJT4lXG4gIGxlYWZsZXQoKSAlPiVcbiAgYWRkVGlsZXMoKSAlPiVcbiAgI3NpbXBsZSwgZGVmYXVsdCBtYXJrZXJzIHdoZXJlIHlvdSBzZXQgd2hhdCBzaG93cyB3aGVuIHlvdSBtb3VzZSBvdmVyIChcImxhYmVsXCIpIGFuZCBjbGljayBvbiAoXCJwb3B1cFwiKSBhIHBvaW50LlxuICBhZGRNYXJrZXJzKH5sb24sIH5sYXQsIHBvcHVwID0gfmFzLmNoYXJhY3RlcihwcmVzQWJzKSwgbGFiZWwgPSB+cGFzdGUwKFwiUHJlc2VuY2U6IFwiLCBhcy5jaGFyYWN0ZXIocHJlc0FicykpKVxuXG5gYGAifQ== -->
-<pre class="r"><code>#install.packages(&quot;leaflet&quot;)
-library(leaflet)
-
-#commented out for rendering to pdf
-#visible only in .html format
-
-#filter data to only include presences
-#similarly, this takes a lot of time to render when we have this much data.
-POTR.dat %&gt;%
-  filter(presAbs == 1) %&gt;%
-  leaflet() %&gt;%
-  addTiles() %&gt;%
-  #simple, default markers where you set what shows when you mouse over (&quot;label&quot;) and click on (&quot;popup&quot;) a point.
-  addMarkers(~lon, ~lat, popup = ~as.character(presAbs), label = ~paste0(&quot;Presence: &quot;, as.character(presAbs)))
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI2luc3RhbGwucGFja2FnZXMoXFxsZWFmbGV0XFwpXG5saWJyYXJ5KGxlYWZsZXQpXG5cbiNjb21tZW50ZWQgb3V0IGZvciByZW5kZXJpbmcgdG8gcGRmXG4jdmlzaWJsZSBvbmx5IGluIC5odG1sIGZvcm1hdFxuXG4jZmlsdGVyIGRhdGEgdG8gb25seSBpbmNsdWRlIHByZXNlbmNlc1xuI3NpbWlsYXJseSwgdGhpcyB0YWtlcyBhIGxvdCBvZiB0aW1lIHRvIHJlbmRlciB3aGVuIHdlIGhhdmUgdGhpcyBtdWNoIGRhdGEuXG5QT1RSLmRhdCAlPiVcbiAgZmlsdGVyKHByZXNBYnMgPT0gMSkgJT4lXG4gIGxlYWZsZXQoKSAlPiVcbiAgYWRkVGlsZXMoKSAlPiVcbiAgI3NpbXBsZSwgZGVmYXVsdCBtYXJrZXJzIHdoZXJlIHlvdSBzZXQgd2hhdCBzaG93cyB3aGVuIHlvdSBtb3VzZSBvdmVyIChcXGxhYmVsXFwpIGFuZCBjbGljayBvbiAoXFxwb3B1cFxcKSBhIHBvaW50LlxuICBhZGRNYXJrZXJzKH5sb24sIH5sYXQsIHBvcHVwID0gfmFzLmNoYXJhY3RlcihwcmVzQWJzKSwgbGFiZWwgPSB+cGFzdGUwKFxcUHJlc2VuY2U6IFxcLCBhcy5jaGFyYWN0ZXIocHJlc0FicykpKVxuXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r #install.packages() library(leaflet)</p>
+</div>
+<div id="commented-out-for-rendering-to-pdf-1" class="section level1">
+<h1>commented out for rendering to pdf</h1>
+</div>
+<div id="visible-only-in-.html-format-1" class="section level1">
+<h1>visible only in .html format</h1>
+</div>
+<div id="filter-data-to-only-include-presences" class="section level1">
+<h1>filter data to only include presences</h1>
+</div>
+<div id="similarly-this-takes-a-lot-of-time-to-render-when-we-have-this-much-data." class="section level1">
+<h1>similarly, this takes a lot of time to render when we have this much data.</h1>
+<p>POTR.dat %&gt;% filter(presAbs == 1) %&gt;% leaflet() %&gt;% addTiles() %&gt;% #simple, default markers where you set what shows when you mouse over () and click on () a point. addMarkers(~lon, ~lat, popup = ~as.character(presAbs), label = ~paste0(: , as.character(presAbs)))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -364,35 +339,23 @@ POTR.dat %&gt;%
 <p>You may need to update other packages on this install.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2luc3RhbGwucGFja2FnZXMoXCJkZXZ0b29sc1wiKVxubGlicmFyeShkZXZ0b29scylcbmRldnRvb2xzOjppbnN0YWxsX2dpdGh1YihcImRrYWhsZS9nZ21hcFwiKVxubGlicmFyeShnZ21hcClcblxuYGBgIn0= -->
-<pre class="r"><code>#install.packages(&quot;devtools&quot;)
-library(devtools)
-devtools::install_github(&quot;dkahle/ggmap&quot;)
-library(ggmap)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI2luc3RhbGwucGFja2FnZXMoXFxkZXZ0b29sc1xcKVxubGlicmFyeShkZXZ0b29scylcbmRldnRvb2xzOjppbnN0YWxsX2dpdGh1YihcXGRrYWhsZS9nZ21hcFxcKVxubGlicmFyeShnZ21hcClcblxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r #install.packages() library(devtools) devtools::install_github(/ggmap) library(ggmap)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Google provides a way to access baselayers for plotting your points on a map. But, it can throw a lot of errors!</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ21hcClcblxubWFwID0gZ2V0X21hcChsb2NhdGlvbiA9IFwidXRhaFwiLFxuICAgICAgICAgICAgICB6b29tID0gNixcbiAgICAgICAgICAgICAgc291cmNlID0gXCJnb29nbGVcIixcbiAgICAgICAgICAgICAgbWFwdHlwZSA9IFwic2F0ZWxsaXRlXCIpXG5cbnAgPSBnZ21hcChtYXApXG5wICtcbiAgZ2VvbV9wb2ludChQT1RSLmRhdCAlPiUgYXJyYW5nZShwcmVzQWJzKSxcbiAgICAgICAgICAgICBtYXBwaW5nID0gYWVzKHggPSBsb24sIHkgPSBsYXQsIGNvbCA9IGZhY3RvcihwcmVzQWJzKSkpICtcbiAgbGFicyh0aXRsZSA9IHBhc3RlMChcIlBPVFIgcHJlc2VuY2UgYW5kIGFic2VuY2VcIikpXG5gYGAifQ== -->
-<pre class="r"><code>library(ggmap)
-
-map = get_map(location = &quot;utah&quot;,
-              zoom = 6,
-              source = &quot;google&quot;,
-              maptype = &quot;satellite&quot;)
-
-p = ggmap(map)
-p +
-  geom_point(POTR.dat %&gt;% arrange(presAbs),
-             mapping = aes(x = lon, y = lat, col = factor(presAbs))) +
-  labs(title = paste0(&quot;POTR presence and absence&quot;))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShnZ21hcClcblxubWFwID0gZ2V0X21hcChsb2NhdGlvbiA9IFxcdXRhaFxcLFxuICAgICAgICAgICAgICB6b29tID0gNixcbiAgICAgICAgICAgICAgc291cmNlID0gXFxnb29nbGVcXCxcbiAgICAgICAgICAgICAgbWFwdHlwZSA9IFxcc2F0ZWxsaXRlXFwpXG5cbnAgPSBnZ21hcChtYXApXG5wICtcbiAgZ2VvbV9wb2ludChQT1RSLmRhdCAlPiUgYXJyYW5nZShwcmVzQWJzKSxcbiAgICAgICAgICAgICBtYXBwaW5nID0gYWVzKHggPSBsb24sIHkgPSBsYXQsIGNvbCA9IGZhY3RvcihwcmVzQWJzKSkpICtcbiAgbGFicyh0aXRsZSA9IHBhc3RlMChcXFBPVFIgcHJlc2VuY2UgYW5kIGFic2VuY2VcXCkpXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r library(ggmap)</p>
+<p>map = get_map(location = , zoom = 6, source = , maptype = )</p>
+<p>p = ggmap(map) p + geom_point(POTR.dat %&gt;% arrange(presAbs), mapping = aes(x = lon, y = lat, col = factor(presAbs))) + labs(title = paste0(presence and absence))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
 </div>
 <div id="using-alternate-baselayer-sources-for-maps" class="section level2">
 <h2>Using alternate baselayer sources for maps</h2>
@@ -404,21 +367,15 @@ p +
 <p>You can also read more about the different sources and maptypes in the <a href="https://cran.r-project.org/web/packages/ggmap/ggmap.pdf">documentation for the ggmap package.</a></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ21hcClcbm1hcCA9IGdldF9tYXAobG9jYXRpb24gPSBcIlV0YWhcIixcbiAgICAgICAgICAgICAgem9vbSA9IDYsXG4gICAgICAgICAgICAgIHNvdXJjZSA9IFwic3RhbWVuXCIpXG5cbnAgPSBnZ21hcChtYXApXG5wICtcbiAgZ2VvbV9wb2ludChQT1RSLmRhdCAlPiUgYXJyYW5nZShwcmVzQWJzKSxcbiAgICAgICAgICAgICBtYXBwaW5nID0gYWVzKHggPSBsb24sIHkgPSBsYXQsIGNvbCA9IGZhY3RvcihwcmVzQWJzKSkpICtcbiAgbGFicyh0aXRsZSA9IHBhc3RlMChcIlBPVFIgcHJlc2VuY2UgYW5kIGFic2VuY2VcIikpXG5gYGAifQ== -->
-<pre class="r"><code>library(ggmap)
-map = get_map(location = &quot;Utah&quot;,
-              zoom = 6,
-              source = &quot;stamen&quot;)
-
-p = ggmap(map)
-p +
-  geom_point(POTR.dat %&gt;% arrange(presAbs),
-             mapping = aes(x = lon, y = lat, col = factor(presAbs))) +
-  labs(title = paste0(&quot;POTR presence and absence&quot;))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShnZ21hcClcbm1hcCA9IGdldF9tYXAobG9jYXRpb24gPSBcXFV0YWhcXCxcbiAgICAgICAgICAgICAgem9vbSA9IDYsXG4gICAgICAgICAgICAgIHNvdXJjZSA9IFxcc3RhbWVuXFwpXG5cbnAgPSBnZ21hcChtYXApXG5wICtcbiAgZ2VvbV9wb2ludChQT1RSLmRhdCAlPiUgYXJyYW5nZShwcmVzQWJzKSxcbiAgICAgICAgICAgICBtYXBwaW5nID0gYWVzKHggPSBsb24sIHkgPSBsYXQsIGNvbCA9IGZhY3RvcihwcmVzQWJzKSkpICtcbiAgbGFicyh0aXRsZSA9IHBhc3RlMChcXFBPVFIgcHJlc2VuY2UgYW5kIGFic2VuY2VcXCkpXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r library(ggmap) map = get_map(location = , zoom = 6, source = )</p>
+<p>p = ggmap(map) p + geom_point(POTR.dat %&gt;% arrange(presAbs), mapping = aes(x = lon, y = lat, col = factor(presAbs))) + labs(title = paste0(presence and absence))</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+</div>
 </div>
 </div>
 

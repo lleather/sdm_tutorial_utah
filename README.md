@@ -39,3 +39,6 @@ If you are not familiar with how to clone a repository, you can get started by d
 
 ![download](img/howtodownload.png)
 
+## Additional resources
+
+[Data Carpentry geospatial workshop curricula](https://datacarpentry.org/lessons/#geospatial-curriculum)

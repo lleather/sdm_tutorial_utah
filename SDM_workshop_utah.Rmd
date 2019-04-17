@@ -2,7 +2,10 @@
 title: "Manipulating and Using Spatial Data in R"
 author: Lila Leatherman
 date: 04/17/2019
-output: html_notebook
+output: 
+  html_document:
+    keep_md: true
+  pdf_document: default
 ---
 
 ## Welcome! 
