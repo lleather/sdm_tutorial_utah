@@ -39,6 +39,10 @@ If you are not familiar with how to clone a repository, you can get started by d
 
 ![download](img/howtodownload.png)
 
+Do not download the repository to your Downloads folder! Make sure to download the repository to your desktop, documents folder, or other location. 
+
+Once you have downloaded the folder, unzip it, and click to open the file sdum_tutorial_utah.Rproj. 
+
 ## Additional resources
 
 [Data Carpentry geospatial workshop curricula](https://datacarpentry.org/lessons/#geospatial-curriculum)
@@ -47,3 +51,4 @@ If you are not familiar with how to clone a repository, you can get started by d
 
 [Tidy data and the tidyverse with Hadley Wickham](<https://r4ds.had.co.nz/tidy-data.html>)
 
+[Colors in R](<https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf>) 

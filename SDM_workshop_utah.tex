@@ -1,0 +1,1651 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Manipulating and Using Spatial Data in R},
+            pdfauthor={Lila Leatherman},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Manipulating and Using Spatial Data in R}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Lila Leatherman}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{04/17/2019}
+
+
+\begin{document}
+\maketitle
+
+\subsection{Welcome!}\label{welcome}
+
+This workshop will show you how to load, manipulate, visualize, and
+analyze spatial data in R. Our end application will be species
+distribution models, but you can use similar techniques for other kinds
+of spatial analysis and modeling.
+
+Our example today will be species distribution models for aspen (Populus
+tremuloides) in Utah. See
+\href{https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.110308.120159}{Elith
+et al. 2009} for a broader overview on species distribution modeling.
+
+\subsubsection{A few notes:}\label{a-few-notes}
+
+\begin{itemize}
+\item
+  This workshop was developed in R Markdown. As a user of this workshop,
+  this means that if you are working from a PDF version of this report,
+  you are seeing the same content that is in the script. As a future
+  user of R Markdown, this means that you can write code, make figures,
+  and annotate your findings all within one document-- that you can then
+  export for multiple uses. Please take the opportunity to explore both
+  the PDF and .Rmd versions of this workshop!
+\item
+  This workshop uses the
+  \href{https://github.com/jennybc/here_here}{here} package to create
+  dynamic references to file paths. This means you never have to use
+  setwd() again! By creating an R project in a folder of your choice,
+  here() identifies the source or home directory for the project on your
+  machine, so that you don't have to manually set the location of the
+  files or scripts.
+\item
+  If you download or clone the entire github repository, you will have
+  all the data you need to run this model. The repository also already
+  includes prepared data, but this workflow takes you through all the
+  steps you would use to load, prep, and use the data on your own.
+\end{itemize}
+
+\subsection{Learning Objectives}\label{learning-objectives}
+
+Over the course of this workshop, you will learn how to:
+
+\begin{itemize}
+\tightlist
+\item
+  read and write point data
+\item
+  read and write polygon data
+\item
+  read and write raster data
+\item
+  combine different types of spatial data
+\item
+  crop and mask spatial data
+\item
+  set and change the projection of a dataset
+\item
+  manipulate data using dplyr
+\item
+  create simple visualizations using base R and ggplot2
+\end{itemize}
+
+Additionally, we will learn some foundational concepts behind species
+distribution modeling.
+
+\subsection{Set up}\label{set-up}
+
+First, we need to install all of the packages we need for this project.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# LOAD LIBRARIES}
+  \CommentTok{#install.packages("here)}
+    \KeywordTok{library}\NormalTok{(here)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## here() starts at /Users/lilaleatherman/Documents/github/sdm_tutorial_utah
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("tidyverse")}
+    \KeywordTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages -------------------------------------------------------------------------------------------------------------------- tidyverse 1.2.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.1.0       v purrr   0.3.2  
+## v tibble  2.1.1       v dplyr   0.8.0.1
+## v tidyr   0.8.3       v stringr 1.4.0  
+## v readr   1.1.1       v forcats 0.3.0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tibble' was built under R version 3.5.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tidyr' was built under R version 3.5.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'purrr' was built under R version 3.5.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 3.5.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'stringr' was built under R version 3.5.2
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ----------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("rgeos")  }
+    \KeywordTok{library}\NormalTok{(rgeos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## rgeos version: 0.4-1, (SVN revision 579)
+##  GEOS runtime version: 3.6.1-CAPI-1.10.1 
+##  Linking to sp version: 1.3-1 
+##  Polygon checking: TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("rgbif")}
+    \KeywordTok{library}\NormalTok{(rgbif)}
+  \CommentTok{#install.packages("maps")}
+    \KeywordTok{library}\NormalTok{(maps)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'maps'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     map
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("maptools")}
+    \KeywordTok{library}\NormalTok{(maptools)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: sp
+\end{verbatim}
+
+\begin{verbatim}
+## Checking rgeos availability: TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("raster")}
+    \KeywordTok{library}\NormalTok{(raster)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'raster'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("rgdal") }
+    \KeywordTok{library}\NormalTok{(rgdal) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## rgdal: version: 1.3-6, (SVN revision 773)
+##  Geospatial Data Abstraction Library extensions to R successfully loaded
+##  Loaded GDAL runtime: GDAL 2.1.3, released 2017/20/01
+##  Path to GDAL shared files: /Library/Frameworks/R.framework/Versions/3.5/Resources/library/rgdal/gdal
+##  GDAL binary built with GEOS: FALSE 
+##  Loaded PROJ.4 runtime: Rel. 4.9.3, 15 August 2016, [PJ_VERSION: 493]
+##  Path to PROJ.4 shared files: /Library/Frameworks/R.framework/Versions/3.5/Resources/library/rgdal/proj
+##  Linking to sp version: 1.3-1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("biomod2")}
+    \KeywordTok{library}\NormalTok{(biomod2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## biomod2 3.3-18 loaded.
+## 
+## Type browseVignettes(package='biomod2') to access directly biomod2 vignettes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{#install.packages("ggplot2")}
+    \KeywordTok{library}\NormalTok{(ggplot2)}
+  
+\CommentTok{#set chunk options for writing}
+\NormalTok{knitr}\OperatorTok{::}\NormalTok{opts_chunk}\OperatorTok{$}\KeywordTok{set}\NormalTok{(}\DataTypeTok{message =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{warning =} \OtherTok{FALSE}\NormalTok{)}
+
+\CommentTok{#reassign functions that are masked}
+\NormalTok{extract <-}\StringTok{ }\NormalTok{raster}\OperatorTok{::}\NormalTok{extract}
+\NormalTok{select <-}\StringTok{ }\NormalTok{dplyr}\OperatorTok{::}\NormalTok{select}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Load and organize spatial
+data}\label{load-and-organize-spatial-data}
+
+First, we're going to load some background spatial data for our project.
+
+First, we'll get a polygon representing the state of Utah. There are
+several different packages that can help you acquire administrative
+boundaries, but here we're using getData() from the raster package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#a way to get state data}
+\NormalTok{states_list <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'Utah'}\NormalTok{)}
+\NormalTok{states_all <-}\StringTok{ }\KeywordTok{getData}\NormalTok{(}\StringTok{"GADM"}\NormalTok{,}\DataTypeTok{country=}\StringTok{"USA"}\NormalTok{,}\DataTypeTok{level=}\DecValTok{1}\NormalTok{, }\DataTypeTok{path =} \KeywordTok{here}\NormalTok{(}\StringTok{"data/UT"}\NormalTok{))}
+\NormalTok{UT.shp <-}\StringTok{ }\NormalTok{states_all[states_all}\OperatorTok{$}\NormalTok{NAME_}\DecValTok{1} \OperatorTok{%in%}\StringTok{ }\NormalTok{states_list,]}
+
+\CommentTok{#inspect}
+\CommentTok{#UT.shp}
+\KeywordTok{plot}\NormalTok{(UT.shp)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+This loads and plots a shapefile for Utah. If you downloaded the whole
+directory, this file has already been saved and provided for you, but
+you can save it again for practice.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#create directory for output}
+\KeywordTok{dir.create}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data/UT"}\NormalTok{))}
+
+\CommentTok{#export}
+\KeywordTok{writeOGR}\NormalTok{(UT.shp, }\KeywordTok{here}\NormalTok{(}\StringTok{"data/UT"}\NormalTok{), }\DataTypeTok{layer =} \StringTok{"UT"}\NormalTok{, }\DataTypeTok{driver =} \StringTok{"ESRI Shapefile"}\NormalTok{, }\DataTypeTok{overwrite =} \OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{#load back in }
+\NormalTok{UT.shp <-}\StringTok{ }\KeywordTok{shapefile}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data/UT/UT.shp"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we're going to load in our climate data. These data are commonly
+used for species distribution modeling and represent environmental
+variables that combine different climatic variables into variables that
+are more meaningful for species. These data were downloaded from
+\url{http://worldclim.org/version2} at 30s resolution and cropped to
+Utah. These data are in Raster stack format - a collection of raster
+layers. (What is this analagous to in Arc?)
+
+Here, I'm using the stack(), commented out below, can also be used to
+read in a raster stack, a .grd file. Alternately, the command readRDS
+can also be used to load the data that I have saved in .Rdata format,
+which is specific to R.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{envStack <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data/climate/envStack_init.grd"}\NormalTok{))}
+\CommentTok{#envStack <- readRDS(here("data/climate/envStack_init.RData"))}
+
+\CommentTok{#inspect}
+\KeywordTok{plot}\NormalTok{(envStack)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+We have environmental data, but we need to crop them only to the spatial
+extent that we're interested in: in this case, Utah.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#crop to Utah extent}
+\NormalTok{envStack_UT <-}\StringTok{ }\KeywordTok{crop}\NormalTok{(envStack, UT.shp)}
+
+\CommentTok{#inspect - this just crops to the spatial extent of the object, not the outline of the polygon}
+\KeywordTok{plot}\NormalTok{(envStack_UT)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# crop to Utah boundaries}
+\NormalTok{envStack_UT <-}\StringTok{ }\KeywordTok{mask}\NormalTok{(envStack, UT.shp)}
+\KeywordTok{plot}\NormalTok{(envStack_UT)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#export}
+\KeywordTok{writeRaster}\NormalTok{(envStack_UT, }\DataTypeTok{file =} \KeywordTok{here}\NormalTok{(}\StringTok{"data/climate/envStack_UT.grd"}\NormalTok{), }\DataTypeTok{options =} \StringTok{"INTERLEAVE=BAND"}\NormalTok{, }\DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{saveRDS}\NormalTok{(envStack_UT, }\DataTypeTok{file =} \KeywordTok{here}\NormalTok{(}\StringTok{"data/climate/envStack_UT.RData"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Looks good! We can also export our final raster stack. In this case, we
+can write the file as a raster, or save the data as a .Rdata file. Be
+careful which file format you save a raster stack in-- even though some
+file formats can be used for both single and multiple layer raster data
+(e.g., .tif), these formats do not preserve the names of the layers in a
+raster stack.
+
+\subsubsection{Load occurrence data - from
+GBIF}\label{load-occurrence-data---from-gbif}
+
+Next, we'll load occurrence data for our species of interest from a few
+different sources. First, we download data from the Global Biodiversity
+Information Facility (GBIF) for our species of interest.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#function also doesn't work if the gbif website is down}
+\NormalTok{gbif.POTR <-}\StringTok{ }\KeywordTok{occ_search}\NormalTok{(}\DataTypeTok{scientificName =} \StringTok{"Populus tremuloides"}\NormalTok{, }
+                           \DataTypeTok{return =} \StringTok{"data"}\NormalTok{, }
+                           \DataTypeTok{hasCoordinate =} \OtherTok{TRUE}\NormalTok{, }
+                           \DataTypeTok{hasGeospatialIssue =} \OtherTok{FALSE}\NormalTok{, }
+                           \DataTypeTok{limit =} \DecValTok{200000}\NormalTok{, }
+                           \DataTypeTok{country =} \StringTok{"US"}\NormalTok{, }\DataTypeTok{stateProvince =} \KeywordTok{c}\NormalTok{(}\StringTok{"Utah"}\NormalTok{), }
+                           \DataTypeTok{fields =} \KeywordTok{c}\NormalTok{(}\StringTok{"name"}\NormalTok{, }\StringTok{"decimalLongitude"}\NormalTok{, }\StringTok{"decimalLatitude"}\NormalTok{))}
+
+\KeywordTok{colnames}\NormalTok{(gbif.POTR) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"name"}\NormalTok{, }\StringTok{"lon"}\NormalTok{, }\StringTok{"lat"}\NormalTok{)}
+
+\CommentTok{#export}
+\KeywordTok{dir.create}\NormalTok{(}\DataTypeTok{path =} \KeywordTok{here}\NormalTok{(}\StringTok{"/data/occurrence/GBIF"}\NormalTok{))}
+\KeywordTok{write.csv}\NormalTok{(gbif.POTR, }\StringTok{"./data/occurrence/GBIF/gbif.POTR.csv"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
+
+\CommentTok{#read back in }
+\NormalTok{gbif.POTR <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"./data/occurrence/GBIF/gbif.POTR.csv"}\NormalTok{, }\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{###convert to shapefile }
+
+\CommentTok{#create object to turn into a shapefile}
+\NormalTok{gbif.POTR.shp <-}\StringTok{ }\NormalTok{gbif.POTR }
+
+\CommentTok{#set the fields that represent the coordinates}
+\KeywordTok{coordinates}\NormalTok{(gbif.POTR.shp) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{lon }\OperatorTok{+}\StringTok{ }\NormalTok{lat}
+
+\CommentTok{#convert to spatial points daa frame}
+\NormalTok{gbif.POTR.shp <-}\StringTok{ }\KeywordTok{SpatialPointsDataFrame}\NormalTok{(}\DataTypeTok{coords =} \KeywordTok{coordinates}\NormalTok{(gbif.POTR.shp), }
+                                       \DataTypeTok{data =} \KeywordTok{data.frame}\NormalTok{(gbif.POTR.shp))}
+
+\CommentTok{# Same as "define projection" in Arc}
+\KeywordTok{proj4string}\NormalTok{(gbif.POTR.shp) <-}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"}\NormalTok{) }
+
+\CommentTok{#check that CRS is the same as enviro data}
+\KeywordTok{identicalCRS}\NormalTok{(gbif.POTR.shp, envStack)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#inspect - we can just use plot() to plot the spatial data}
+\KeywordTok{plot}\NormalTok{(gbif.POTR.shp)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-6-1.pdf}
+And we have points!
+
+Unfortunately, looks like we have some extraneous points that we didn't
+expect here, so we'll need to crop them out.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#make sure we only have points from UT}
+\CommentTok{#basically, subsetting the points to the ones that fall  have to do this spatial operation on a spatial object}
+\NormalTok{gbif.POTR.shp <-}\StringTok{ }\NormalTok{gbif.POTR.shp[UT.shp, ]}
+\KeywordTok{plot}\NormalTok{(gbif.POTR.shp)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#replace file with the subsetted points in our area of interest}
+\CommentTok{#we can access just the data frame portion of the shapefile}
+\NormalTok{gbif.POTR <-}\StringTok{ }\NormalTok{gbif.POTR.shp}\OperatorTok{@}\NormalTok{data }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{optional)}
+
+\CommentTok{#export again so we have the most up-to-date version saved! both for our collaborators, and FUTURE US}
+\KeywordTok{write.csv}\NormalTok{(gbif.POTR, }\StringTok{"./data/occurrence/GBIF/gbif.POTR.csv"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's plot these on a map!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#to plot points, run this whole chunk }
+
+\NormalTok{maps}\OperatorTok{::}\KeywordTok{map}\NormalTok{(}\DataTypeTok{database =} \StringTok{"state"}\NormalTok{, }\DataTypeTok{regions =} \StringTok{"utah"}\NormalTok{)}
+    \KeywordTok{points}\NormalTok{(gbif.POTR.shp)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\subsubsection{Load occurrence data - from the Forest Service
+FIA}\label{load-occurrence-data---from-the-forest-service-fia}
+
+I downloaded and processed these data from the Forest Service website,
+which you can access here: \url{https://apps.fs.usda.gov/fia/datamart/}
+.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Normally, you will just load one version of the data to manipulate. But here, I'm showing you a coupel different ways to load in these data.}
+
+\CommentTok{#load shapefile}
+\NormalTok{fia.POTR.shp <-}\StringTok{ }\KeywordTok{shapefile}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data/occurrence/FIA/fia.POTR.shp"}\NormalTok{))}
+
+\CommentTok{#load .csv}
+\NormalTok{fia.POTR <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data/occurrence/FIA/FIA_POTR_UT_presAbs.csv"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Let's look at these data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# plot with base R, again needs to be a shapefile to plot like this}
+\CommentTok{# color by presence / absence recorded}
+\KeywordTok{plot}\NormalTok{(UT.shp)}
+    \KeywordTok{points}\NormalTok{(fia.POTR.shp, }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }\DataTypeTok{bg =} \StringTok{"white"}\NormalTok{, }\DataTypeTok{cex =} \FloatTok{0.5}\NormalTok{)}
+    \KeywordTok{points}\NormalTok{(fia.POTR.shp[fia.POTR}\OperatorTok{$}\NormalTok{presAbs }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{,], }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }\DataTypeTok{bg =} \StringTok{"dodgerblue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-10-1.pdf}
+The FIA data include points both where POTR was observed, and where it
+was not observed.
+
+\subsubsection{Make the two data sources play
+together!}\label{make-the-two-data-sources-play-together}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# join the data}
+
+\CommentTok{# Make the fields align!}
+\CommentTok{#The GBIF data only represent places where POTR was observed, but we need to add a field that indicates this.}
+\CommentTok{#Also, the FIA data do not have a "name" column, so we remove it here}
+\NormalTok{gbif.POTR <-}\StringTok{ }\NormalTok{gbif.POTR }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{presAbs =} \DecValTok{1}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{name)}
+
+\CommentTok{# bind the data frames together }
+\NormalTok{POTR.dat <-}\StringTok{ }\KeywordTok{bind_rows}\NormalTok{(fia.POTR, gbif.POTR) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(lon, lat, presAbs) }\CommentTok{# make sure we get only the fields present in both datasets }
+
+\CommentTok{# #### alternately, you can join two shapefiles like so: }
+\CommentTok{# # still have to create presAbs field for the gbif data}
+\CommentTok{# gbif.POTR.shp@data <- data.frame(gbif.POTR.shp@data[c("lon", "lat")],}
+\CommentTok{#                                  presAbs = rep(1, nrow(gbif.POTR.shp)))}
+\CommentTok{# }
+\CommentTok{# #check that the projections are the same for these data sets}
+\CommentTok{# identicalCRS(gbif.POTR.shp, fia.POTR.shp)}
+\CommentTok{# }
+\CommentTok{# #bind}
+\CommentTok{# POTR.dat.shp <- rbind(gbif.POTR.shp, fia.POTR.shp)}
+
+\CommentTok{# plot all together}
+\CommentTok{# ggplot can be used to plot }
+
+\CommentTok{# another way to get spatial data - ready for plotting in ggplot. }
+\CommentTok{# this is just a list of points that can be rendered as a polygon by ggplot. }
+\CommentTok{# I like ggplot, which is part of the "tidyverse", because I think it's a little easier to understand than base R!}
+\NormalTok{UT <-}\StringTok{ }\KeywordTok{map_data}\NormalTok{(}\StringTok{"state"}\NormalTok{, }\DataTypeTok{region =} \StringTok{"utah"}\NormalTok{)}
+
+\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}
+\StringTok{      }\KeywordTok{geom_polygon}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ UT, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{long, }\DataTypeTok{y =}\NormalTok{ lat, }\DataTypeTok{group =}\NormalTok{ group), }\DataTypeTok{fill =} \OtherTok{NA}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{      }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ POTR.dat }\OperatorTok{%>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(presAbs), }
+                 \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ lon, }\DataTypeTok{y =}\NormalTok{ lat, }\DataTypeTok{color =} \KeywordTok{factor}\NormalTok{(presAbs))) }\OperatorTok{+}
+\StringTok{      }\KeywordTok{coord_fixed}\NormalTok{(}\FloatTok{1.3}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{      }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"FIA and GBIF PRESENCE/ABSENCE DATA - Populus tremuloides"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#export your data!}
+\KeywordTok{write.csv}\NormalTok{(POTR.dat, }\KeywordTok{here}\NormalTok{(}\StringTok{"data/occurrence/full_POTR.csv"}\NormalTok{), }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Load forest mask}\label{load-forest-mask}
+
+Another task you might want to do is to only look at one raster, within
+the extent of another raster. We won't be using this today, but I have
+provided this as an example. We have a layer that represents areas of
+forest in Utah, which was downloaded and prepped from :
+\url{https://swregap.org/data/landcover/}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#load mask layer}
+\NormalTok{forest_mask <-}\StringTok{ }\KeywordTok{raster}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data/ut_landcover/ut_forestmask.tif"}\NormalTok{))}
+
+\CommentTok{#inspect}
+\KeywordTok{plot}\NormalTok{(forest_mask)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#make sure mask and layer to be masked have same extent and projection (and resolution?) - otherwise, it won't work!}
+\KeywordTok{compareRaster}\NormalTok{(forest_mask, envStack_UT)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#perform the operation}
+\NormalTok{envStack_mask <-}\StringTok{ }\KeywordTok{mask}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ envStack_UT, }\DataTypeTok{mask =}\NormalTok{ forest_mask, }\DataTypeTok{maskvalue =} \DecValTok{0}\NormalTok{)}
+
+\CommentTok{#inspect}
+\KeywordTok{plot}\NormalTok{(envStack_mask)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-12-2.pdf}
+
+So now, if we wanted it-- we only have environmental data for areas
+where there is forest in Utah.
+
+\subsubsection{Extract environmental data to
+points}\label{extract-environmental-data-to-points}
+
+For species distribution modeling, we need to create a data frame that
+has the values for environmental variables at each of our points. We can
+do an extract operation to get this information. We do this using the
+extract() function in the raster package. You can extract either by
+specifying the coordinates, or by using the shapefile
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## extract enviro data to points }
+
+\CommentTok{#by specifying coordinates}
+\NormalTok{env.dat <-}\StringTok{ }\NormalTok{raster}\OperatorTok{::}\KeywordTok{extract}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ envStack_UT, }\DataTypeTok{y =}\NormalTok{ POTR.dat[,}\KeywordTok{c}\NormalTok{(}\StringTok{"lon"}\NormalTok{, }\StringTok{"lat"}\NormalTok{)])}
+\KeywordTok{head}\NormalTok{(env.dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Annual.Mean.Temperature Mean.Diurnal.Range Isothermality
+## [1,]                9.487500           14.79167      37.44726
+## [2,]               10.350000           11.41667      31.62512
+## [3,]                9.054167           14.00833      34.33415
+## [4,]                8.079166           13.24167      36.17942
+## [5,]                6.712500           16.45833      43.08464
+## [6,]                9.108334           15.66667      34.89235
+##      Temperature.Seasonality Max.Temperature.of.Warmest.Month
+## [1,]                887.3636                             28.7
+## [2,]                904.1747                             28.3
+## [3,]                952.7078                             28.7
+## [4,]                849.0461                             26.4
+## [5,]                795.2562                             25.6
+## [6,]               1031.5254                             30.2
+##      Min.Temperature.of.Coldest.Month Temperature.Annual.Range
+## [1,]                            -10.8                     39.5
+## [2,]                             -7.8                     36.1
+## [3,]                            -12.1                     40.8
+## [4,]                            -10.2                     36.6
+## [5,]                            -12.6                     38.2
+## [6,]                            -14.7                     44.9
+##      Mean.Temperature.of.Wettest.Quarter
+## [1,]                            8.233333
+## [2,]                           21.183334
+## [3,]                           20.133333
+## [4,]                           18.383333
+## [5,]                           16.283333
+## [6,]                           16.616667
+##      Mean.Temperature.of.Driest.Quarter
+## [1,]                          20.750000
+## [2,]                          14.083333
+## [3,]                          -1.633333
+## [4,]                          11.383333
+## [5,]                           9.916667
+## [6,]                          -3.950000
+##      Mean.Temperature.of.Warmest.Quarter
+## [1,]                            20.75000
+## [2,]                            21.90000
+## [3,]                            20.96667
+## [4,]                            18.88333
+## [5,]                            16.86667
+## [6,]                            21.50000
+##      Mean.Temperature.of.Coldest.Quarter Annual.Precipitation
+## [1,]                          -1.1666666                  309
+## [2,]                          -0.2500001                  287
+## [3,]                          -2.6333334                  212
+## [4,]                          -1.8500000                  397
+## [5,]                          -2.6666667                  316
+## [6,]                          -3.9499998                  273
+##      Precipitation.of.Wettest.Month Precipitation.of.Driest.Month
+## [1,]                             34                            16
+## [2,]                             35                            11
+## [3,]                             27                            12
+## [4,]                             45                            17
+## [5,]                             49                            16
+## [6,]                             30                            16
+##      Precipitation.Seasonality Precipitation.of.Wettest.Quarter
+## [1,]                  19.20286                               98
+## [2,]                  28.65912                               97
+## [3,]                  32.08870                               79
+## [4,]                  25.09788                              129
+## [5,]                  34.61431                              115
+## [6,]                  21.77701                               85
+##      Precipitation.of.Driest.Quarter Precipitation.of.Warmest.Quarter
+## [1,]                              63                               63
+## [2,]                              44                               78
+## [3,]                              39                               67
+## [4,]                              72                              105
+## [5,]                              53                               96
+## [6,]                              49                               71
+##      Precipitation.of.Coldest.Quarter
+## [1,]                               68
+## [2,]                               69
+## [3,]                               39
+## [4,]                               86
+## [5,]                               65
+## [6,]                               49
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(env.dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  num [1:3861, 1:19] 9.49 10.35 9.05 8.08 6.71 ...
+##  - attr(*, "dimnames")=List of 2
+##   ..$ : NULL
+##   ..$ : chr [1:19] "Annual.Mean.Temperature" "Mean.Diurnal.Range" "Isothermality" "Temperature.Seasonality" ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# # by using the shapefile which is already spatial }
+\CommentTok{# env.dat <- raster::extract(x = envStack_UT, y = POTR.dat.shp)}
+\CommentTok{# head(env.dat)}
+
+
+\KeywordTok{plot}\NormalTok{(env.dat[,}\DecValTok{2}\NormalTok{] }\OperatorTok{~}\StringTok{ }\KeywordTok{factor}\NormalTok{(POTR.dat}\OperatorTok{$}\NormalTok{presAbs))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\subsection{Prep the model}\label{prep-the-model}
+
+\subsubsection{Prep the data for the
+model}\label{prep-the-data-for-the-model}
+
+Unlike the previous steps we've completed, this step is more exclusive
+to species distribution modeling. You can run the following chunks of
+code, which are specific to the species distribution modeling process
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{POTR.mod.dat <-}\StringTok{ }\KeywordTok{BIOMOD_FormatingData}\NormalTok{(}\DataTypeTok{resp.var =} \KeywordTok{as.numeric}\NormalTok{(POTR.dat}\OperatorTok{$}\NormalTok{presAbs),}
+                                     \DataTypeTok{resp.xy =}\NormalTok{ POTR.dat[, }\KeywordTok{c}\NormalTok{(}\StringTok{"lon"}\NormalTok{, }\StringTok{"lat"}\NormalTok{)],}
+                                     \CommentTok{#resp.var = POTR.dat.shp, # for input: can use shapefile with the presence-absence response in the @data slot}
+                                     \DataTypeTok{expl.var =} \KeywordTok{stack}\NormalTok{(envStack_UT),}
+                                     \CommentTok{#eval.resp.var = ,}
+                                     \CommentTok{#PA.strategy = "random", }
+                                     \CommentTok{#PA.nb.rep = 0, }
+                                     \CommentTok{#PA.nb.absences = 0,}
+                                     \DataTypeTok{resp.name =} \StringTok{"Populus.tremuloides"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-= Populus.tremuloides Data Formating -=-=-=-=-=-=-=-=-=-=
+## 
+## > No pseudo absences selection !
+##       ! No data has been set aside for modeling evaluation
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{POTR.mod.dat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-= 'BIOMOD.formated.data' -=-=-=-=-=-=-=-=-=-=-=-=-=
+## 
+## sp.name =  Populus.tremuloides
+## 
+##   530 presences,  3331 true absences and  0 undifined points in dataset
+## 
+## 
+##   19 explanatory variables
+## 
+##  Annual.Mean.Temperature Mean.Diurnal.Range Isothermality  
+##  Min.   :-1.133          Min.   : 8.258     Min.   :28.58  
+##  1st Qu.: 4.292          1st Qu.:12.950     1st Qu.:36.24  
+##  Median : 6.562          Median :14.283     Median :38.01  
+##  Mean   : 6.516          Mean   :14.183     Mean   :38.06  
+##  3rd Qu.: 8.783          3rd Qu.:15.417     3rd Qu.:39.91  
+##  Max.   :15.442          Max.   :19.967     Max.   :45.62  
+##  Temperature.Seasonality Max.Temperature.of.Warmest.Month
+##  Min.   : 674.5          Min.   :14.50                   
+##  1st Qu.: 793.8          1st Qu.:22.00                   
+##  Median : 835.2          Median :25.30                   
+##  Mean   : 843.5          Mean   :25.13                   
+##  3rd Qu.: 889.7          3rd Qu.:28.30                   
+##  Max.   :1156.1          Max.   :34.90                   
+##  Min.Temperature.of.Coldest.Month Temperature.Annual.Range
+##  Min.   :-19.00                   Min.   :27.30           
+##  1st Qu.:-13.40                   1st Qu.:34.80           
+##  Median :-12.20                   Median :37.60           
+##  Mean   :-12.09                   Mean   :37.22           
+##  3rd Qu.:-10.80                   3rd Qu.:39.60           
+##  Max.   : -3.10                   Max.   :50.70           
+##  Mean.Temperature.of.Wettest.Quarter Mean.Temperature.of.Driest.Quarter
+##  Min.   :-6.283                      Min.   :-7.550                    
+##  1st Qu.: 6.050                      1st Qu.:-1.467                    
+##  Median :12.867                      Median : 7.350                    
+##  Mean   :11.103                      Mean   : 6.798                    
+##  3rd Qu.:16.650                      3rd Qu.:13.917                    
+##  Max.   :24.050                      Max.   :23.267                    
+##  Mean.Temperature.of.Warmest.Quarter Mean.Temperature.of.Coldest.Quarter
+##  Min.   : 8.267                      Min.   :-8.917                     
+##  1st Qu.:14.533                      1st Qu.:-5.150                     
+##  Median :17.217                      Median :-3.600                     
+##  Mean   :17.224                      Mean   :-3.390                     
+##  3rd Qu.:19.950                      3rd Qu.:-1.700                     
+##  Max.   :26.717                      Max.   : 5.350                     
+##  Annual.Precipitation Precipitation.of.Wettest.Month
+##  Min.   :155.0        Min.   :21.00                 
+##  1st Qu.:312.0        1st Qu.:36.00                 
+##  Median :374.0        Median :42.00                 
+##  Mean   :372.2        Mean   :42.47                 
+##  3rd Qu.:431.0        3rd Qu.:48.00                 
+##  Max.   :639.0        Max.   :73.00                 
+##  Precipitation.of.Driest.Month Precipitation.Seasonality
+##  Min.   : 5.00                 Min.   : 6.004           
+##  1st Qu.:14.00                 1st Qu.:14.976           
+##  Median :20.00                 Median :20.832           
+##  Mean   :20.26                 Mean   :21.254           
+##  3rd Qu.:25.00                 3rd Qu.:26.762           
+##  Max.   :40.00                 Max.   :40.002           
+##  Precipitation.of.Wettest.Quarter Precipitation.of.Driest.Quarter
+##  Min.   : 58.0                    Min.   : 23.00                 
+##  1st Qu.: 99.0                    1st Qu.: 57.00                 
+##  Median :114.0                    Median : 72.00                 
+##  Mean   :115.4                    Mean   : 71.33                 
+##  3rd Qu.:131.0                    3rd Qu.: 86.00                 
+##  Max.   :202.0                    Max.   :124.00                 
+##  Precipitation.of.Warmest.Quarter Precipitation.of.Coldest.Quarter
+##  Min.   : 41.00                   Min.   : 23.00                  
+##  1st Qu.: 79.00                   1st Qu.: 66.00                  
+##  Median : 91.00                   Median : 87.00                  
+##  Mean   : 94.84                   Mean   : 88.26                  
+##  3rd Qu.:107.00                   3rd Qu.:110.00                  
+##  Max.   :202.00                   Max.   :177.00                  
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{BIOMOD_ModelingOptions}\NormalTok{() }\CommentTok{# need to install java in order to run Maxent.Phillips; we won't be doing this today because it can be pretty finicky!}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=  'BIOMOD.Model.Options'  -=-=-=-=-=-=-=-=-=-=-=-=
+## 
+## 
+## GLM = list( type = 'quadratic',
+##             interaction.level = 0,
+##             myFormula = NULL,
+##             test = 'AIC',
+##             family = binomial(link = 'logit'),
+##             mustart = 0.5,
+##             control = glm.control(epsilon = 1e-08, maxit = 50
+## , trace = FALSE) ),
+## 
+## 
+## GBM = list( distribution = 'bernoulli',
+##             n.trees = 2500,
+##             interaction.depth = 7,
+##             n.minobsinnode = 5,
+##             shrinkage = 0.001,
+##             bag.fraction = 0.5,
+##             train.fraction = 1,
+##             cv.folds = 3,
+##             keep.data = FALSE,
+##             verbose = FALSE,
+##             perf.method = 'cv',
+##             n.cores = 1),
+## 
+## GAM = list( algo = 'GAM_mgcv',
+##             type = 's_smoother',
+##             k = -1,
+##             interaction.level = 0,
+##             myFormula = NULL,
+##             family = binomial(link = 'logit'),
+##             method = 'GCV.Cp',
+##             optimizer = c('outer','newton'),
+##             select = FALSE,
+##             knots = NULL,
+##             paraPen = NULL,
+##             control = list(nthreads = 1, irls.reg = 0, epsilon = 1e-07
+## , maxit = 200, trace = FALSE, mgcv.tol = 1e-07, mgcv.half = 15
+## , rank.tol = 1.49011611938477e-08
+## , nlm = list(ndigit=7, gradtol=1e-06, stepmax=2, steptol=1e-04, iterlim=200, check.analyticals=0)
+## , optim = list(factr=1e+07)
+## , newton = list(conv.tol=1e-06, maxNstep=5, maxSstep=2, maxHalf=30, use.svd=0)
+## , outerPIsteps = 0, idLinksBases = TRUE, scalePenalty = TRUE
+## , efs.lspmax = 15, efs.tol = 0.1, keepData = FALSE, scale.est = fletcher
+## , edge.correct = FALSE) ),
+## 
+## 
+## CTA = list( method = 'class',
+##             parms = 'default',
+##             cost = NULL,
+##             control = list(xval = 5, minbucket = 5, minsplit = 5
+## , cp = 0.001, maxdepth = 25) ),
+## 
+## 
+## ANN = list( NbCV = 5,
+##             size = NULL,
+##             decay = NULL,
+##             rang = 0.1,
+##             maxit = 200),
+## 
+## SRE = list( quant = 0.025),
+## 
+## FDA = list( method = 'mars',
+##             add_args = NULL),
+## 
+## MARS = list( type = 'simple',
+##              interaction.level = 0,
+##              myFormula = NULL,
+##              nk = NULL,
+##              penalty = 2,
+##              thresh = 0.001,
+##              nprune = NULL,
+##              pmethod = 'backward'),
+## 
+## RF = list( do.classif = TRUE,
+##            ntree = 500,
+##            mtry = 'default',
+##            nodesize = 5,
+##            maxnodes = NULL),
+## 
+## MAXENT.Phillips = list( path_to_maxent.jar = '/Users/lilaleatherman/Documents/github/sdm_tutorial_utah',
+##                memory_allocated = 512,
+##                background_data_dir = 'default',
+##                maximumbackground = 'default',
+##                maximumiterations = 200,
+##                visible = FALSE,
+##                linear = TRUE,
+##                quadratic = TRUE,
+##                product = TRUE,
+##                threshold = TRUE,
+##                hinge = TRUE,
+##                lq2lqptthreshold = 80,
+##                l2lqthreshold = 10,
+##                hingethreshold = 15,
+##                beta_threshold = -1,
+##                beta_categorical = -1,
+##                beta_lqp = -1,
+##                beta_hinge = -1,
+##                betamultiplier = 1,
+##                defaultprevalence = 0.5),
+## 
+## MAXENT.Tsuruoka = list( l1_regularizer = 0,
+##                         l2_regularizer = 0,
+##                         use_sgd = FALSE,
+##                         set_heldout = 0,
+##                         verbose = FALSE)
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#myBiomodOptions <- BIOMOD_ModelingOptions(MAXENT.Phillips = list(path_to_maxent.jar = "maxent/maxent.jar"))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Run the model}\label{run-the-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{POTR.mod <-}\StringTok{ }\KeywordTok{BIOMOD_Modeling}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ POTR.mod.dat, }
+                            \CommentTok{#models = c('GLM','GAM','ANN','RF','MAXENT.Tsuruoka'),  }
+                            \DataTypeTok{models =} \KeywordTok{c}\NormalTok{(}\StringTok{'GBM'}\NormalTok{,}\StringTok{'ANN'}\NormalTok{,}\StringTok{'RF'}\NormalTok{), }
+                            \CommentTok{#SaveObj = TRUE,}
+                            \CommentTok{#models.options = myBiomodOptions,}
+                            \CommentTok{# , DataSplit = 80}
+                            \DataTypeTok{VarImport =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 
+## Loading required library...
+## 
+## Checking Models arguments...
+## 
+## Creating suitable Workdir...
+## 
+##  > No weights : all observations will have the same weight
+## 
+## 
+## -=-=-=-=-=-=-=-=-= Populus.tremuloides Modeling Summary -=-=-=-=-=-=-=-=-=
+## 
+##  19  environmental variables ( Annual.Mean.Temperature Mean.Diurnal.Range Isothermality Temperature.Seasonality Max.Temperature.of.Warmest.Month Min.Temperature.of.Coldest.Month Temperature.Annual.Range Mean.Temperature.of.Wettest.Quarter Mean.Temperature.of.Driest.Quarter Mean.Temperature.of.Warmest.Quarter Mean.Temperature.of.Coldest.Quarter Annual.Precipitation Precipitation.of.Wettest.Month Precipitation.of.Driest.Month Precipitation.Seasonality Precipitation.of.Wettest.Quarter Precipitation.of.Driest.Quarter Precipitation.of.Warmest.Quarter Precipitation.of.Coldest.Quarter )
+## Number of evaluation repetitions : 1
+## Models selected : GBM ANN RF 
+## 
+## Total number of model runs : 3 
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+## 
+## 
+## -=-=-=- Run :  Populus.tremuloides_AllData 
+## 
+## 
+## -=-=-=--=-=-=- Populus.tremuloides_AllData_Full 
+## 
+## Model=Generalised Boosting Regression 
+##   2500 maximum different trees and  3  Fold Cross-Validation
+\end{verbatim}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{verbatim}
+## 
+##  Evaluating Model stuff...
+##  Evaluating Predictor Contributions... 
+## 
+## Model=Artificial Neural Network 
+##   5 Fold Cross Validation + 3 Repetitions
+##  Model scaling...
+##  Evaluating Model stuff...
+##  Evaluating Predictor Contributions... 
+## 
+## Model=Breiman and Cutler's random forests for classification and regression
+##  Evaluating Model stuff...
+##  Evaluating Predictor Contributions... 
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{POTR.mod}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-= BIOMOD.models.out -=-=-=-=-=-=-=-=-=-=-=-=-=-=
+## 
+## Modeling id : 1555529582
+## 
+## Species modeled : Populus.tremuloides
+## 
+## Considered variables : Annual.Mean.Temperature Mean.Diurnal.Range 
+## Isothermality Temperature.Seasonality Max.Temperature.of.Warmest.Month 
+## Min.Temperature.of.Coldest.Month Temperature.Annual.Range 
+## Mean.Temperature.of.Wettest.Quarter Mean.Temperature.of.Driest.Quarter 
+## Mean.Temperature.of.Warmest.Quarter Mean.Temperature.of.Coldest.Quarter 
+## Annual.Precipitation Precipitation.of.Wettest.Month 
+## Precipitation.of.Driest.Month Precipitation.Seasonality 
+## Precipitation.of.Wettest.Quarter Precipitation.of.Driest.Quarter 
+## Precipitation.of.Warmest.Quarter Precipitation.of.Coldest.Quarter
+## 
+## 
+## Computed Models :  Populus.tremuloides_AllData_Full_GBM 
+## Populus.tremuloides_AllData_Full_ANN Populus.tremuloides_AllData_Full_RF
+## 
+## 
+## Failed Models :  none
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+So now we've built a suite of species distribution models! This graph is
+one method of evaluating the boosted regression tree model, abbreviated
+in the model formulation as ``GBM,'' or ``generalized boosted model.''
+We can plot and visualize these in a couple different ways.
+
+Below I use tidyverse techniques to manipulate and plot these
+evaluations in a more attractive way, using the ggplot package.
+
+\subsection{View and evaluate the
+model}\label{view-and-evaluate-the-model}
+
+\subsubsection{Get model evaluations}\label{get-model-evaluations}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{POTR.mod.eval <-}\StringTok{ }\KeywordTok{get_evaluations}\NormalTok{(POTR.mod)}
+    \KeywordTok{dimnames}\NormalTok{(POTR.mod.eval)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [[1]]
+## [1] "KAPPA" "TSS"   "ROC"  
+## 
+## [[2]]
+## [1] "Testing.data" "Cutoff"       "Sensitivity"  "Specificity" 
+## 
+## [[3]]
+## [1] "GBM" "ANN" "RF" 
+## 
+## [[4]]
+## [1] "Full"
+## 
+## [[5]]
+## Populus.tremuloides_AllData 
+##                   "AllData"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    POTR.mod.eval[}\StringTok{"TSS"}\NormalTok{,}\StringTok{"Testing.data"}\NormalTok{,,,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   GBM   ANN    RF 
+## 0.637 0.587 0.869
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    POTR.mod.eval[}\StringTok{"KAPPA"}\NormalTok{,}\StringTok{"Testing.data"}\NormalTok{,,,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   GBM   ANN    RF 
+## 0.432 0.338 0.649
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{    POTR.mod.eval[}\StringTok{"ROC"}\NormalTok{,}\StringTok{"Testing.data"}\NormalTok{,,,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   GBM   ANN    RF 
+## 0.880 0.814 0.947
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# prep and plot these data a little more attractively}
+    
+\NormalTok{POTR.mod.eval <-}\StringTok{ }
+\StringTok{     }\KeywordTok{data.frame}\NormalTok{(POTR.mod.eval[}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{, }\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{, ,,]) }\OperatorTok{%>%}
+\StringTok{       }\KeywordTok{rownames_to_column}\NormalTok{(}\StringTok{"metric"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{       }\KeywordTok{gather}\NormalTok{(}\OperatorTok{-}\NormalTok{metric, }\DataTypeTok{key =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{value =} \StringTok{"val"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{       }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mod =} \KeywordTok{gsub}\NormalTok{(}\DataTypeTok{pattern =} \StringTok{"Testing.data"}\NormalTok{, }\StringTok{"Testingdata"}\NormalTok{, mod)) }\OperatorTok{%>%}
+\StringTok{       }\KeywordTok{separate}\NormalTok{(mod, }\KeywordTok{c}\NormalTok{(}\StringTok{"val_type"}\NormalTok{, }\StringTok{"model"}\NormalTok{))}
+
+\CommentTok{#inspect evaluation statistics}
+\KeywordTok{print}\NormalTok{(}
+\NormalTok{POTR.mod.eval }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(val_type }\OperatorTok{==}\StringTok{ "Testingdata"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ metric, }\DataTypeTok{y =}\NormalTok{ val, }\DataTypeTok{fill =}\NormalTok{ model)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \StringTok{"dodge"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"model evaluation - on testing data"}\NormalTok{,}
+       \DataTypeTok{x =} \StringTok{"model type"}\NormalTok{)}
+\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+So, this has reorganized the data so that we are now plotting model
+evaluation statistics for each model type, side by side.
+
+We can do the same thing to look at the importance of different
+variables in the model. Here, this means how much each environmental
+variable contributes to the model.
+
+\subsubsection{Get variable importance}\label{get-variable-importance}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{get_variables_importance}\NormalTok{(POTR.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## , , Full, AllData
+## 
+##                                       GBM   ANN    RF
+## Annual.Mean.Temperature             0.449 0.260 0.126
+## Mean.Diurnal.Range                  0.001 0.005 0.011
+## Isothermality                       0.003 0.015 0.009
+## Temperature.Seasonality             0.004 0.000 0.012
+## Max.Temperature.of.Warmest.Month    0.030 0.016 0.064
+## Min.Temperature.of.Coldest.Month    0.001 0.010 0.009
+## Temperature.Annual.Range            0.001 0.001 0.022
+## Mean.Temperature.of.Wettest.Quarter 0.004 0.000 0.016
+## Mean.Temperature.of.Driest.Quarter  0.006 0.000 0.016
+## Mean.Temperature.of.Warmest.Quarter 0.008 0.134 0.078
+## Mean.Temperature.of.Coldest.Quarter 0.016 0.170 0.054
+## Annual.Precipitation                0.012 0.079 0.027
+## Precipitation.of.Wettest.Month      0.000 0.026 0.006
+## Precipitation.of.Driest.Month       0.002 0.150 0.014
+## Precipitation.Seasonality           0.005 0.005 0.011
+## Precipitation.of.Wettest.Quarter    0.002 0.011 0.012
+## Precipitation.of.Driest.Quarter     0.002 0.000 0.023
+## Precipitation.of.Warmest.Quarter    0.008 0.005 0.017
+## Precipitation.of.Coldest.Quarter    0.009 0.035 0.014
+\end{verbatim}
+
+We can also prep and plot this a little more attractively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# investigate variable importance}
+\CommentTok{# still some parsing to do here to visualize}
+\NormalTok{var.imp <-}\StringTok{ }\NormalTok{(}\KeywordTok{get_variables_importance}\NormalTok{(POTR.mod))}
+\NormalTok{var.imp <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(var.imp)}
+\CommentTok{# var.imp$var <- names(envStack_aoi)}
+\CommentTok{# var.imp}
+
+\NormalTok{var.imp <-}
+\StringTok{  }\NormalTok{var.imp }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{var =} \KeywordTok{names}\NormalTok{(envStack_UT))}\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(}\OperatorTok{-}\NormalTok{var, }\DataTypeTok{key =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{value =} \StringTok{"val"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(mod, }\KeywordTok{c}\NormalTok{(}\StringTok{"model_type"}\NormalTok{, }\StringTok{"model_level"}\NormalTok{, }\StringTok{"data_amt"}\NormalTok{)) }
+
+\CommentTok{#plot var importance}
+\KeywordTok{print}\NormalTok{(}
+\NormalTok{var.imp }\OperatorTok{%>%}
+\StringTok{  }\CommentTok{#mutate(val = ifelse(model_type == "RF", val*10, val)) %>% #multiply RF values by 10 to compare better? idk why these are so low}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ val, }\DataTypeTok{x =} \KeywordTok{reorder}\NormalTok{(var, val), }\DataTypeTok{fill =}\NormalTok{ val, }\DataTypeTok{group =} \KeywordTok{interaction}\NormalTok{(data_amt, model_type))) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{, }\DataTypeTok{position =} \StringTok{"dodge"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{coord_flip}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{hjust =} \DecValTok{1}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Variable importance, by model"}\NormalTok{,}
+       \DataTypeTok{x =} \StringTok{"variable"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{(}\OperatorTok{~}\NormalTok{model_type)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\subsubsection{Create an ensemble model-- averaging all of the models
+together}\label{create-an-ensemble-model-averaging-all-of-the-models-together}
+
+Lastly in our species distribution modeling process, we create an
+ensemble model that averages all the models together. Here, this means
+we make a united map or raster of our results. First we'll build the
+model, then we'll project it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myBiomodEM <-}\StringTok{ }\KeywordTok{BIOMOD_EnsembleModeling}\NormalTok{(}
+                  \DataTypeTok{modeling.output =}\NormalTok{ POTR.mod,}
+                  \DataTypeTok{chosen.models =} \StringTok{'all'}\NormalTok{,}
+                  \DataTypeTok{em.by=} \StringTok{'all'}\NormalTok{,}
+                  \DataTypeTok{eval.metric =} \KeywordTok{c}\NormalTok{(}\StringTok{'TSS'}\NormalTok{),}
+                  \DataTypeTok{eval.metric.quality.threshold =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{),}
+                  \DataTypeTok{prob.mean =}\NormalTok{ T,}
+                  \DataTypeTok{prob.cv =}\NormalTok{ T,}
+                  \DataTypeTok{prob.ci =}\NormalTok{ T,}
+                  \DataTypeTok{prob.ci.alpha =} \FloatTok{0.05}\NormalTok{,}
+                  \DataTypeTok{prob.median =}\NormalTok{ T,}
+                  \DataTypeTok{committee.averaging =}\NormalTok{ T,}
+                  \DataTypeTok{prob.mean.weight =}\NormalTok{ T,}
+                  \DataTypeTok{prob.mean.weight.decay =} \StringTok{'proportional'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-= Build Ensemble Models -=-=-=-=-=-=-=-=-=-=-=-=-=
+## 
+##    ! all models available will be included in ensemble.modeling
+##    > Evaluation & Weighting methods summary :
+##       TSS over 0.6
+## 
+## 
+##   > mergedAlgo_mergedRun_mergedData ensemble modeling
+##    ! Models projections for whole zonation required...
+##  > Projecting Populus.tremuloides_AllData_Full_GBM ...
+##  > Projecting Populus.tremuloides_AllData_Full_RF ...
+## 
+##    > Mean of probabilities...
+##          Evaluating Model stuff...
+##    > Coef of variation of probabilities...
+##          Evaluating Model stuff...
+##    > Confidence Interval...
+##          Evaluating Model stuff...
+##          Evaluating Model stuff...
+##    > Median of probabilities...
+##          Evaluating Model stuff...
+##    >  Committee averaging...
+##          Evaluating Model stuff...
+##    > Probabilities weighting mean...
+##        original models scores =  0.637 0.869
+##        final models weights =  0.423 0.577
+##          Evaluating Model stuff...
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myBiomodEM}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-=-= 'BIOMOD.EnsembleModeling.out' -=-=-=-=-=-=-=-=-=-=-=
+## 
+## sp.name : Populus.tremuloides
+## 
+## expl.var.names : Annual.Mean.Temperature Mean.Diurnal.Range Isothermality 
+## Temperature.Seasonality Max.Temperature.of.Warmest.Month 
+## Min.Temperature.of.Coldest.Month Temperature.Annual.Range 
+## Mean.Temperature.of.Wettest.Quarter Mean.Temperature.of.Driest.Quarter 
+## Mean.Temperature.of.Warmest.Quarter Mean.Temperature.of.Coldest.Quarter 
+## Annual.Precipitation Precipitation.of.Wettest.Month 
+## Precipitation.of.Driest.Month Precipitation.Seasonality 
+## Precipitation.of.Wettest.Quarter Precipitation.of.Driest.Quarter 
+## Precipitation.of.Warmest.Quarter Precipitation.of.Coldest.Quarter
+## 
+## 
+## models computed: 
+## Populus.tremuloides_EMmeanByTSS_mergedAlgo_mergedRun_mergedData, Populus.tremuloides_EMcvByTSS_mergedAlgo_mergedRun_mergedData, Populus.tremuloides_EMciInfByTSS_mergedAlgo_mergedRun_mergedData, Populus.tremuloides_EMciSupByTSS_mergedAlgo_mergedRun_mergedData, Populus.tremuloides_EMmedianByTSS_mergedAlgo_mergedRun_mergedData, Populus.tremuloides_EMcaByTSS_mergedAlgo_mergedRun_mergedData, Populus.tremuloides_EMwmeanByTSS_mergedAlgo_mergedRun_mergedData
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{get_evaluations}\NormalTok{(myBiomodEM)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $Populus.tremuloides_EMmeanByTSS_mergedAlgo_mergedRun_mergedData
+##       Testing.data Cutoff Sensitivity Specificity
+## KAPPA        0.603    285      88.491      87.932
+## TSS          0.789    246      93.208      85.590
+## ROC          0.937    183      98.868      80.036
+## 
+## $Populus.tremuloides_EMcvByTSS_mergedAlgo_mergedRun_mergedData
+##       Testing.data Cutoff Sensitivity Specificity
+## KAPPA           NA     NA          NA          NA
+## TSS             NA     NA          NA          NA
+## ROC             NA     NA          NA          NA
+## 
+## $Populus.tremuloides_EMciInfByTSS_mergedAlgo_mergedRun_mergedData
+##       Testing.data Cutoff Sensitivity Specificity
+## KAPPA        0.493  105.0      65.660      89.853
+## TSS          0.581   22.0      74.340      83.458
+## ROC          0.810   25.5      73.962      84.239
+## 
+## $Populus.tremuloides_EMciSupByTSS_mergedAlgo_mergedRun_mergedData
+##       Testing.data Cutoff Sensitivity Specificity
+## KAPPA        0.533    501      86.981      84.839
+## TSS          0.795    423      99.623      79.736
+## ROC          0.927    424      99.623      79.856
+## 
+## $Populus.tremuloides_EMmedianByTSS_mergedAlgo_mergedRun_mergedData
+##       Testing.data Cutoff Sensitivity Specificity
+## KAPPA        0.603    285      88.491      87.932
+## TSS          0.789    246      93.208      85.590
+## ROC          0.937    183      98.868      80.036
+## 
+## $Populus.tremuloides_EMcaByTSS_mergedAlgo_mergedRun_mergedData
+##       Testing.data Cutoff Sensitivity Specificity
+## KAPPA        0.616    747      92.075      87.631
+## TSS          0.797    747      92.075      87.631
+## ROC          0.927    750      92.075      87.631
+## 
+## $Populus.tremuloides_EMwmeanByTSS_mergedAlgo_mergedRun_mergedData
+##       Testing.data Cutoff Sensitivity Specificity
+## KAPPA        0.616  284.0      90.943      87.932
+## TSS          0.815  212.0      97.736      83.729
+## ROC          0.940  227.5      96.604      85.080
+\end{verbatim}
+
+\subsubsection{Project the model
+spatially}\label{project-the-model-spatially}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myBiomodProj <-}\StringTok{ }\KeywordTok{BIOMOD_Projection}\NormalTok{(}\DataTypeTok{modeling.output =}\NormalTok{ POTR.mod,}
+                    \DataTypeTok{new.env =} \KeywordTok{stack}\NormalTok{(envStack_UT),}
+                    \DataTypeTok{proj.name =} \StringTok{'current'}\NormalTok{ ,}
+                    \DataTypeTok{selected.models =} \StringTok{'all'}\NormalTok{ , }\CommentTok{# will return separate projections for each model }
+                    \DataTypeTok{binary.meth =} \StringTok{'TSS'}\NormalTok{ ,}
+                    \DataTypeTok{compress =} \StringTok{'xz'}\NormalTok{ ,}
+                    \DataTypeTok{clamping.mask =}\NormalTok{ F,}
+                    \DataTypeTok{output.format =} \StringTok{'.grd'}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-= Do Models Projections -=-=-=-=-=-=-=-=-=-=-=-=-=
+## 
+##  > Building clamping mask
+## 
+##  > Projecting Populus.tremuloides_AllData_Full_GBM ...
+##  > Projecting Populus.tremuloides_AllData_Full_ANN ...
+##  > Projecting Populus.tremuloides_AllData_Full_RF ...
+## 
+##  > Building TSS binaries
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myBiomodProj}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-= 'BIOMOD.projection.out' -=-=-=-=-=-=-=-=-=-=-=-=
+## 
+## Projection directory : Populus.tremuloides/current
+## 
+## 
+## sp.name : Populus.tremuloides
+## 
+## expl.var.names : Annual.Mean.Temperature Mean.Diurnal.Range Isothermality 
+## Temperature.Seasonality Max.Temperature.of.Warmest.Month 
+## Min.Temperature.of.Coldest.Month Temperature.Annual.Range 
+## Mean.Temperature.of.Wettest.Quarter Mean.Temperature.of.Driest.Quarter 
+## Mean.Temperature.of.Warmest.Quarter Mean.Temperature.of.Coldest.Quarter 
+## Annual.Precipitation Precipitation.of.Wettest.Month 
+## Precipitation.of.Driest.Month Precipitation.Seasonality 
+## Precipitation.of.Wettest.Quarter Precipitation.of.Driest.Quarter 
+## Precipitation.of.Warmest.Quarter Precipitation.of.Coldest.Quarter
+## 
+## 
+## modeling id : 1555529582 ( 
+## Populus.tremuloides/Populus.tremuloides.1555529582.models.out )
+## 
+## models projected : 
+## Populus.tremuloides_AllData_Full_GBM, Populus.tremuloides_AllData_Full_ANN, Populus.tremuloides_AllData_Full_RF
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(myBiomodProj)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+We can also plot these one at a time.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(myBiomodProj, }\DataTypeTok{str.grep =} \StringTok{'RF'}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+If we want to plot the map on its own, we can extract the results to a
+new object.This is the output that you can save and manipulate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myCurrentProj <-}\StringTok{ }\KeywordTok{get_predictions}\NormalTok{(myBiomodProj)}
+
+\CommentTok{#combine projections from all models}
+\NormalTok{presentResult <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(myCurrentProj,}\DataTypeTok{fun =}\NormalTok{ median); }\CommentTok{#Choose whatever descriptive statistic you'd like}
+\KeywordTok{plot}\NormalTok{(presentResult)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#myCurrentProj}
+\KeywordTok{plot}\NormalTok{(myCurrentProj[[}\DecValTok{1}\NormalTok{]], }\DataTypeTok{main =} \StringTok{"Aspen (Populus Tremuloides) in Utah"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-22-2.pdf}
+
+\subsubsection{Save output}\label{save-output}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dir.create}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"model_output"}\NormalTok{))}
+\KeywordTok{dir.create}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"model_output/rasters"}\NormalTok{))}
+
+\CommentTok{# save raster stack}
+\KeywordTok{writeRaster}\NormalTok{(myCurrentProj, }\DataTypeTok{filename =} \KeywordTok{here}\NormalTok{(}\StringTok{"model_output/rasters/biomod_out.grd"}\NormalTok{), }\DataTypeTok{options =} \StringTok{"INTERLEAVE=BAND"}\NormalTok{, }\DataTypeTok{overwrite =} \OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{#load and inspect}
+\NormalTok{present_In <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"model_output/rasters/biomod_out.grd"}\NormalTok{))}
+\NormalTok{present_In}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## class       : RasterStack 
+## dimensions  : 601, 601, 361201, 3  (nrow, ncol, ncell, nlayers)
+## resolution  : 0.008333333, 0.008333333  (x, y)
+## extent      : -114.05, -109.0417, 37, 42.00833  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
+## names       : Populus.tremuloides_AllData_Full_GBM, Populus.tremuloides_AllData_Full_ANN, Populus.tremuloides_AllData_Full_RF 
+## min values  :                                   30,                                   19,                                   0 
+## max values  :                                  617,                                  353,                                 938
+\end{verbatim}
+
+\subsection{Make a map using ggplot}\label{make-a-map-using-ggplot}
+
+I have included a supplement that will go into more detail, but you can
+also make maps using ggplot2 that I think are more straightforward to
+customize.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(rasterVis)}
+\KeywordTok{library}\NormalTok{(viridis)}
+
+\CommentTok{#choose one layer}
+\NormalTok{RF_model <-}\StringTok{ }\NormalTok{present_In}\OperatorTok{$}\NormalTok{Populus.tremuloides_AllData_Full_RF}
+
+\NormalTok{p =}\StringTok{ }\KeywordTok{gplot}\NormalTok{(RF_model) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_tile}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill =}\NormalTok{ value)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{scale_fill_viridis}\NormalTok{(}\DataTypeTok{na.value =} \StringTok{"white"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{theme_bw}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{panel.grid.major =} \KeywordTok{element_blank}\NormalTok{(), }\DataTypeTok{panel.grid.minor =} \KeywordTok{element_blank}\NormalTok{()) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{coord_fixed}\NormalTok{(}\DataTypeTok{ratio =} \FloatTok{1.3}\NormalTok{) }\CommentTok{# sets the xy resolution to a constant value}
+
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SDM_workshop_utah_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+
+\end{document}

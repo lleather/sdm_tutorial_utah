@@ -44,36 +44,51 @@ Additionally, we will learn some foundational concepts behind species distributi
 First, we need to install all of the packages we need for this project. 
 
 ```{r}
+
+# IF THIS IS YOUR FIRST TIME USING THESE PACKAGES: INSTALL
+# install.packages("here")
+# install.packages("tidyverse")
+# install.packages("rgeos")
+# install.packages("rgbif")
+# install.packages("maps")
+# install.packages("maptools")
+# install.packages("raster")
+# install.packages("rgdal")
+# install.packages("biomod2")
+# install.packages("ggplot2")
+
 # LOAD LIBRARIES
-  #install.packages("here)
-    library(here)
-  #install.packages("tidyverse")
-    library(tidyverse)
-  #install.packages("rgeos")  
-    library(rgeos)
-  #install.packages("rgbif")
-    library(rgbif)
-  #install.packages("maps")
-    library(maps)
-  #install.packages("maptools")
-    library(maptools)  
-  #install.packages("raster")
-    library(raster)
-  #install.packages("rgdal") 
-    library(rgdal) 
-  #install.packages("biomod2")
-    library(biomod2)
-  #install.packages("ggplot2")
-    library(ggplot2)
+library(here)
+library(tidyverse)
+library(rgeos)
+library(rgbif)
+library(maps)
+library(maptools)
+library(raster)
+library(rgdal)
+library(biomod2)
+library(ggplot2)
   
 #set chunk options for writing
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
-#reassign functions that are masked
+#reassign functions that are masked by other packages
 extract <- raster::extract
 select <- dplyr::select
 
 ```
+
+## Getting started with the here package
+
+The first thing we need to do is to make sure that the here package is pointing to the location we expect. This should be your "sdm_tutorial_utah" folder, unzipped if you downloaded rather than cloned from the repository. 
+
+Check that the path matches what you expect:
+
+```{r}
+here()
+```
+
+If the path looks correct to you-- does not include any strings that say "tmp" or similar-- then you are good to go!
 
 ## Load and organize spatial data 
 
@@ -83,7 +98,12 @@ First, we'll get a polygon representing the state of Utah. There are several dif
 
 ```{r}
 
-#a way to get state data
+## this directory already exists in our project folder.
+## but, if it did not, you would create this directory as a location to place your newly-acquired shapefile.
+
+# dir.create(here("data/UT"))
+
+#a way to get state data - downloading from a database accessed by the raster package
 states_list <- c('Utah')
 states_all <- getData("GADM",country="USA",level=1, path = here("data/UT"))
 UT.shp <- states_all[states_all$NAME_1 %in% states_list,]
@@ -98,8 +118,6 @@ plot(UT.shp)
 This loads and plots a shapefile for Utah. If you downloaded the whole directory, this file has already been saved and provided for you, but you can save it again for practice. 
 
 ```{r , results = FALSE }
-#create directory for output
-dir.create(here("data/UT"))
 
 #export
 writeOGR(UT.shp, here("data/UT"), layer = "UT", driver = "ESRI Shapefile", overwrite = TRUE)
@@ -111,7 +129,7 @@ UT.shp <- shapefile(here("data/UT/UT.shp"))
 
 Next, we're going to load in our climate data. These data are commonly used for species distribution modeling and represent environmental variables that combine different climatic variables into variables that are more meaningful for species. These data were downloaded from http://worldclim.org/version2 at 30s resolution and cropped to Utah. These data are in Raster stack format - a collection of raster layers. (What is this analagous to in Arc?)
 
-Here, I'm using the  stack(), commented out below, can also be used to read in a raster stack, a .grd file. Alternately, the command readRDS can also be used to load the data that I have saved in .Rdata format, which is specific to R. 
+Here, I'm using the  stack(), commented out below, can also be used to read in a raster stack, a .grd file. Alternately, the command readRDS can also be used to load the data that I have saved in .Rdata format, which is specific to R. Try running each command if you like. 
 
 ```{r}
 envStack <- stack(here("data/climate/envStack_init.grd"))
@@ -128,7 +146,9 @@ We have environmental data, but we need to crop them only to the spatial extent 
 #crop to Utah extent
 envStack_UT <- crop(envStack, UT.shp)
 
-#inspect - this just crops to the spatial extent of the object, not the outline of the polygon
+# inspect - this just crops to the spatial extent of the object, not the outline of the polygon. 
+# that is, it's cropping to the rectangle or bounding box that contains the polygon-- not the shape of the polygon itself. 
+# we need to do this so to ensure that the geographic extents align between these objects. 
 plot(envStack_UT)
 
 # crop to Utah boundaries
@@ -143,9 +163,11 @@ saveRDS(envStack_UT, file = here("data/climate/envStack_UT.RData"))
 
 Looks good! We can also export our final raster stack. In this case, we can write the file as a raster, or save the data as a .Rdata file. Be careful which file format you save a raster stack in-- even though some file formats can be used for both single and multiple layer raster data (e.g., .tif), these formats do not preserve the names of the layers in a raster stack. 
 
+Again, I provide two different methods for exporting the raster stack. The .grd format is a little more universally accessible; the .Rdata format is useful for saving files specific for applications in R. Depending on the application and file, the .RData files can read in a little more quickly, but are less versatile. 
+
 ### Load occurrence data - from GBIF
 
-Next, we'll load occurrence data for our species of interest from a few different sources. First, we download data from the Global Biodiversity Information Facility (GBIF) for our species of interest. 
+Next, we'll load occurrence data for our species of interest from a few different sources. First, we download data from the Global Biodiversity Information Facility [(GBIF)](https://www.gbif.org/) for our species of interest. 
 
 ```{r}
 #function also doesn't work if the gbif website is down
@@ -155,9 +177,10 @@ gbif.POTR <- occ_search(scientificName = "Populus tremuloides",
                            hasGeospatialIssue = FALSE, 
                            limit = 200000, 
                            country = "US", stateProvince = c("Utah"), 
-                           fields = c("name", "decimalLongitude", "decimalLatitude"))
+                           fields = c("decimalLongitude", "decimalLatitude"))
 
-colnames(gbif.POTR) <- c("name", "lon", "lat")
+# here, because we know that we're downloading presence data from tihs database, the only information we're interested in are the coordinates. 
+colnames(gbif.POTR) <- c("lon", "lat")
 
 #export
 dir.create(path = here("/data/occurrence/GBIF"))
@@ -174,7 +197,7 @@ gbif.POTR.shp <- gbif.POTR
 #set the fields that represent the coordinates
 coordinates(gbif.POTR.shp) <- ~ lon + lat
 
-#convert to spatial points daa frame
+#convert to spatial points data frame
 gbif.POTR.shp <- SpatialPointsDataFrame(coords = coordinates(gbif.POTR.shp), 
                                        data = data.frame(gbif.POTR.shp))
 
@@ -192,15 +215,18 @@ And we have points!
 Unfortunately, looks like we have some extraneous points that we didn't expect here, so we'll need to crop them out.
 
 ```{r}
-#make sure we only have points from UT
-#basically, subsetting the points to the ones that fall  have to do this spatial operation on a spatial object
+# make sure we only have points from UT
+# basically, subsetting the points to the ones that fall inside the polygon.
+# In order to use this crop method, we have to do this spatial operation on a spatial object.
 gbif.POTR.shp <- gbif.POTR.shp[UT.shp, ]
 plot(gbif.POTR.shp)
 
-#replace file with the subsetted points in our area of interest
-#we can access just the data frame portion of the shapefile
-gbif.POTR <- gbif.POTR.shp@data %>%
-  dplyr::select(-optional)
+# replace file with the subsetted points in our area of interest
+# we can access just the data frame portion of the shapefile
+gbif.POTR <- gbif.POTR.shp@data 
+
+# if you're curious, check out what the data portion of the shapefile looks like on its own: 
+gbif.POTR.shp@data
 
 #export again so we have the most up-to-date version saved! both for our collaborators, and FUTURE US
 write.csv(gbif.POTR, "./data/occurrence/GBIF/gbif.POTR.csv", row.names = FALSE)
@@ -223,7 +249,8 @@ I downloaded and processed these data from the Forest Service website, which you
 
 ```{r}
 
-# Normally, you will just load one version of the data to manipulate. But here, I'm showing you a coupel different ways to load in these data.
+# Normally, you will just load one version of the data to manipulate. But here, I'm showing you a couple different ways to load in these data.
+# Again, we have a list of points with coordinates, and a shapefile with point data. 
 
 #load shapefile
 fia.POTR.shp <- shapefile(here("data/occurrence/FIA/fia.POTR.shp"))
@@ -246,19 +273,27 @@ The FIA data include points both where POTR was observed, and where it was not o
 
 ### Make the two data sources play together!
 
+Now for some data frame manipulation-- we have different columns in each of our data sets, so we need to make them match up. 
+
+First we'll look at what columns are present in the FIA data, and then we'll see what we need to do to match up the GBIF data. 
+
 ```{r}
 # join the data
 
-# Make the fields align!
-#The GBIF data only represent places where POTR was observed, but we need to add a field that indicates this.
-#Also, the FIA data do not have a "name" column, so we remove it here
-gbif.POTR <- gbif.POTR %>%
-  mutate(presAbs = 1) %>%
-  select(-name)
+# inspect FIA data
+str(fia.POTR)
 
-# bind the data frames together 
+# Make the fields align!
+# The FIA data represent both absences and presences of POTR.
+# The GBIF data only represent places where POTR was observed, or was present, but we need to add a field that indicates this.
+gbif.POTR <- gbif.POTR %>%
+  mutate(presAbs = 1) 
+
+# bind the data frames together into a new data frame
+# make sure we get only the fields present in both datasets! 
+# the FIA data contain a field named "PLOT" that we aren't interested in for this analysis, so we don't "select" it
 POTR.dat <- bind_rows(fia.POTR, gbif.POTR) %>%
-  select(lon, lat, presAbs) # make sure we get only the fields present in both datasets 
+  select(lon, lat, presAbs) 
 
 # #### alternately, you can join two shapefiles like so: 
 # # still have to create presAbs field for the gbif data
@@ -293,16 +328,18 @@ write.csv(POTR.dat, here("data/occurrence/full_POTR.csv"), row.names = FALSE )
 
 ### Load forest mask 
 
-Another task you might want to do is to only look at one raster, within the extent of another raster. We won't be using this today, but I have provided this as an example. We have a layer that represents areas of forest in Utah, which was downloaded and prepped from : https://swregap.org/data/landcover/
+Another task you might want to do is to only look at one raster, within the extent of certain values of another raster. We won't be using this today, but I have provided this as an example. We have a layer that represents areas of forest in Utah, which was downloaded and prepped from : https://swregap.org/data/landcover/
 
 ```{r}
-#load mask layer
+# load mask layer
+# because this is a single layer, we can read it in using the raster command
 forest_mask <- raster(here("data/ut_landcover/ut_forestmask.tif"))
 
 #inspect
 plot(forest_mask)
+forest_mask
 
-#make sure mask and layer to be masked have same extent and projection (and resolution?) - otherwise, it won't work!
+#make sure mask and layer to be masked have same extent and projection - otherwise, it won't work!
 compareRaster(forest_mask, envStack_UT)
 
 #perform the operation
@@ -313,11 +350,13 @@ plot(envStack_mask)
 
 ```
 
-So now, if we wanted it-- we only have environmental data for areas where there is forest in Utah. 
+So now, if we wanted it-- we only have environmental data for areas where there is forest in Utah. Some species distribution modeling analyses focus only on a subset of a geographic area that they have determined to be more likely to be home to the species. For more info on this, you can check out [Mathys et al. 2017](https://onlinelibrary.wiley.com/doi/pdf/10.1111/gcb.13440).
 
 ### Extract environmental data to points
 
-For species distribution modeling, we need to create a data frame that has the values for environmental variables at each of our points. We can do an extract operation to get this information. We do this using the extract() function in the raster package. You can extract either by specifying the coordinates, or by using the shapefile 
+For species distribution modeling, we need to create a data frame that has the values for environmental variables at each of our points. We can do an extract operation to get this information. We do this using the extract() function in the raster package. You can extract either by specifying the coordinates, or by using the shapefile.
+
+Then, we'll make a simple plot to look at the difference in the distribution of one environmental variable 
 
 ```{r}
 ## extract enviro data to points 
@@ -332,7 +371,8 @@ str(env.dat)
 # head(env.dat)
 
 
-plot(env.dat[,2] ~ factor(POTR.dat$presAbs))
+# simple plot looking at a boxplot of Annual Mean Temperature
+plot(env.dat[,"Annual.Mean.Temperature"] ~ factor(POTR.dat$presAbs))
 
 
 ```
@@ -341,7 +381,9 @@ plot(env.dat[,2] ~ factor(POTR.dat$presAbs))
 
 ### Prep the data for the model
 
-Unlike the previous steps we've completed, this step is more exclusive to species distribution modeling. You can run the following chunks of code, which are specific to the species distribution modeling process
+Unlike the previous steps we've completed, this step is more exclusive to species distribution modeling. You can run the following chunks of code, which are specific to the species distribution modeling process.
+
+There are a lot of different ways to implement species distribution models and machine learning methods in R! However, we're using this one here because even though it's harder to tweak, it allows you to run several different models at the same time. 
 
 ```{r}
 POTR.mod.dat <- BIOMOD_FormatingData(resp.var = as.numeric(POTR.dat$presAbs),
@@ -361,7 +403,18 @@ BIOMOD_ModelingOptions() # need to install java in order to run Maxent.Phillips;
 
 ### Run the model
 
+Below, we've selected three different model types to run: GBM, or a boosted regression tree; ANN, or an artificial neural network, and RF, or random forest.
+
+If we wanted to tweak the options and settings for these individual models, we would do so using the BIOMOD_ModelingOptions command. 
+
+For now, we'll leave these as the defaults. 
+
 ```{r}
+
+BIOMOD_ModelingOptions() # For Phillips you need to install java/maxent
+# myBiomodOptions <- BIOMOD_ModelingOptions(MAXENT.Phillips =
+# list(path_to_maxent.jar = "maxent/maxent.jar"))
+
 POTR.mod <- BIOMOD_Modeling(data = POTR.mod.dat, 
                             #models = c('GLM','GAM','ANN','RF','MAXENT.Tsuruoka'),  
                             models = c('GBM','ANN','RF'), 
@@ -517,13 +570,15 @@ presentResult <- calc(myCurrentProj,fun = median); #Choose whatever descriptive 
 plot(presentResult)
 
 #myCurrentProj
-plot(myCurrentProj[[1]], main = "Aspen (Populus Tremuloides) in Utah")
+plot(myCurrentProj[[1]], main = "Aspen (Populus tremuloides) in Utah")
 
 ```
 
 ### Save output
 
 ```{r}
+
+# create output directories, if needed 
 dir.create(here("model_output"))
 dir.create(here("model_output/rasters"))
 
