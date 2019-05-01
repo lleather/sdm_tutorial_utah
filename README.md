@@ -41,7 +41,9 @@ If you are not familiar with how to clone a repository, you can get started by d
 
 Do not download the repository to your Downloads folder! Make sure to download the repository to your desktop, documents folder, or other location. 
 
-Once you have downloaded the folder, unzip it, and click to open the file sdum_tutorial_utah.Rproj. 
+Once you have downloaded the folder, unzip it, and click to **open the file sdm_tutorial_utah.Rproj**. This open the R project, or project workspace. 
+
+Then, click to open the **sdm_tutorial_utah.Rmd**-- this is the file we will be working from for the workshop. 
 
 ## Additional resources
 
